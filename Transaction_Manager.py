@@ -178,7 +178,7 @@ class Transaction_Manager:
                     continue
 
                 my_string += str(
-                    " x{} : {}, ".format(str(table_keys[table_idx]), str(variable_list[-1].get_value())))
+                    "x{}: {}, ".format(str(table_keys[table_idx]), str(variable_list[-1].get_value())))
             my_string = my_string[:len(my_string)-2]
             my_string += "\n"
         print(my_string)
