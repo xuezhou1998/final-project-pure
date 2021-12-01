@@ -93,17 +93,10 @@ def main_file(input_file_path):
                 waitlist_idx += 1
         trans_mgr.time_stamp += 1
         deadlock_detection_result = trans_mgr.dead_lock_detect()
-        # if len(cmmd_waitlist) == 0 and pre_cmmd_waitlist_len > 0:
-        #
+
         if deadlock_detection_result == -2:
             print("===================================================================================================")
-        # if deadlock_detection_result ==-2:
-        #     break
 
-    # except:
-    #     print("Something went wrong")
-    # finally:
-    #     print("The 'try except' is finished")
 
 
 if __name__ == "__main__":
