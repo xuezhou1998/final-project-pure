@@ -56,10 +56,10 @@ class Transaction_Manager:
 
             for i in range(1, Constant.NUMBER_OF_SITES + 1):
                 # first check the restriction of just recovered site
-                curr_site = self.data_mgr.get_site_instance(i)
-                if self.is_replicated_variable(variable_id) and curr_site.just_recovery:
-                    if curr_site.get_var_last_commited_time(variable_id) < self.data_mgr.get_last_fail_time(i):
-                        continue
+                # curr_site = self.data_mgr.get_site_instance(i)
+                # if self.is_replicated_variable(variable_id) and curr_site.just_recovery:
+                #     if curr_site.get_var_last_commited_time(variable_id) < self.data_mgr.get_last_fail_time(i):
+                #         continue
                 if self.get_read_lock(trans_id, variable_id, i) == True:
                     curr_transaction.sites_accessed.add(i)
                     variable_value = self.data_mgr.get_site_variable_value(i, variable_id)
@@ -193,9 +193,9 @@ class Transaction_Manager:
         if self.data_mgr.is_site_failed(site_id):
             return False
         curr_site = self.data_mgr.get_site_instance(site_id)
-        # if self.is_replicated_variable(variable_id) and curr_site.just_recovery:
-        #     if curr_site.get_var_last_commited_time(variable_id) < self.data_mgr.get_last_fail_time(site_id):
-        #         return False
+        if self.is_replicated_variable(variable_id) and curr_site.just_recovery:
+            if curr_site.get_var_last_commited_time(variable_id) < self.data_mgr.get_last_fail_time(site_id):
+                return False
         if curr_site.can_get_read_lock(trans_id, variable_id):
             curr_site.add_read_lock(trans_id, variable_id, self.time_stamp)
             return True
