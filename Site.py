@@ -7,7 +7,6 @@ class Site:
     def __init__(self, site_id) -> None:
         self.site_id = site_id
         self.arraynum = 20
-        self.failed = False
         self.just_recovery = False
         self.recover_time = 0
         self.last_fail_time = 0
@@ -131,8 +130,8 @@ class Site:
 
     def write(self, var_id, value, time_stamp):
         lists = self.vartable[var_id]
-        # v = Variable(time_stamp, value)
-        v = Variable(value, time_stamp)
+        v = Variable(time_stamp, value)
+        # v = Variable(value, time_stamp)
         self.vartable[var_id].append(v)
 
     def site_recover(self, time_stamp, last_fail_time):

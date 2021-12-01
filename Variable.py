@@ -1,8 +1,9 @@
 class Variable:
-    def __init__(self, value, version):
-        self.value = value
+    def __init__(self, version, value ):
+
         self.version = version
 
+        self.value = value
     def get_value(self):
         return self.value
 
