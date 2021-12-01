@@ -1,0 +1,1376 @@
+/usr/local/bin/python3.7 "/Users/xuezhouwen/My Drive/NYU Courses/Advanced Topics Database Systems, Section 001/final-project-pure/Main.py"
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '1', '1', '101']
+parsed command is : ['W', '2', '2', '202']
+parsed command is : ['W', '1', '2', '102']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '1', '2', '102']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['W', '2', '1', '201']
+In while loop inside transaction manager, dead lock detection function
+There is a deadlock.
+Transaction  T2 is aborted.
+waitlist index 0, command is ['W', '1', '2', '102']
+waitlist index 0, command is ['W', '2', '1', '201']
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['dump', '']
+site 1 - x2: 102
+site 2 - x1: 101, x2: 102
+site 3 - x2: 102
+site 4 - x2: 102
+site 5 - x2: 102
+site 6 - x2: 102
+site 7 - x2: 102
+site 8 - x2: 102
+site 9 - x2: 102
+site 10 - x2: 102
+
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['beginRO', '2']
+parsed command is : ['W', '1', '1', '101']
+parsed command is : ['R', '2', '2']
+X 2 : 102
+parsed command is : ['W', '1', '2', '102']
+parsed command is : ['R', '2', '1']
+X 1 : 101
+parsed command is : ['end', '1']
+Transaction T1 committed.
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['dump', '']
+site 1 - x2: 102
+site 2 - x1: 101, x2: 102
+site 3 - x2: 102
+site 4 - x2: 102
+site 5 - x2: 102
+site 6 - x2: 102
+site 7 - x2: 102
+site 8 - x2: 102
+site 9 - x2: 102
+site 10 - x2: 102
+
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '1', '3']
+X 3 : 30
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['W', '2', '8', '88']
+parsed command is : ['R', '2', '3']
+X 3 : 30
+parsed command is : ['W', '1', '5', '91']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['recover', '2']
+Recover site 2 successful at time stamp 28
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '1', '3']
+X 3 : 30
+parsed command is : ['W', '2', '8', '88']
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['R', '2', '3']
+parsed command is : ['W', '1', '4', '91']
+parsed command is : ['recover', '2']
+Recover site 2 successful at time stamp 37
+parsed command is : ['end', '2']
+Transaction T2 has been aborted.
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '1', '3']
+X 3 : 30
+parsed command is : ['W', '2', '8', '88']
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['R', '2', '3']
+parsed command is : ['recover', '2']
+Recover site 2 successful at time stamp 46
+parsed command is : ['W', '1', '4', '91']
+parsed command is : ['end', '2']
+Transaction T2 has been aborted.
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '1', '1']
+X 1 : 101
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['W', '2', '8', '88']
+parsed command is : ['R', '2', '3']
+X 3 : 30
+parsed command is : ['R', '1', '5']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['recover', '2']
+Recover site 2 successful at time stamp 58
+parsed command is : ['end', '1']
+Transaction T1 has been aborted.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '1', '6', '66']
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['W', '2', '8', '88']
+parsed command is : ['R', '2', '3']
+X 3 : 30
+parsed command is : ['R', '1', '5']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['recover', '2']
+Recover site 2 successful at time stamp 68
+parsed command is : ['end', '1']
+Transaction T1 has been aborted.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['fail', '3']
+Has made site 3 failed
+parsed command is : ['fail', '4']
+Has made site 4 failed
+parsed command is : ['R', '1', '1']
+X 1 : 101
+parsed command is : ['W', '2', '8', '88']
+parsed command is : ['end', '1']
+Transaction T1 committed.
+parsed command is : ['recover', '4']
+Recover site 4 successful at time stamp 77
+parsed command is : ['recover', '3']
+Recover site 3 successful at time stamp 78
+parsed command is : ['R', '2', '3']
+X 3 : 30
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['dump', '']
+site 1 - x2: 102, x4: 91, x8: 88
+site 2 - x1: 101, x2: 102, x4: 91, x8: 88
+site 3 - x2: 102, x4: 91, x8: 88
+site 4 - x2: 102, x4: 91, x8: 88
+site 5 - x2: 102, x4: 91, x8: 88
+site 6 - x2: 102, x4: 91, x5: 91, x8: 88
+site 7 - x2: 102, x4: 91, x8: 88
+site 8 - x2: 102, x4: 91, x8: 88
+site 9 - x2: 102, x4: 91, x8: 88
+site 10 - x2: 102, x4: 91, x8: 88
+
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['beginRO', '2']
+parsed command is : ['R', '2', '1']
+X 1 : 101
+parsed command is : ['R', '2', '2']
+X 2 : 102
+parsed command is : ['W', '1', '3', '33']
+parsed command is : ['end', '1']
+Transaction T1 committed.
+parsed command is : ['R', '2', '3']
+X 3 : 30
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['beginRO', '2']
+parsed command is : ['R', '2', '1']
+X 1 : 101
+parsed command is : ['R', '2', '2']
+X 2 : 102
+parsed command is : ['W', '1', '3', '33']
+parsed command is : ['end', '1']
+Transaction T1 committed.
+parsed command is : ['beginRO', '3']
+parsed command is : ['R', '3', '3']
+X 3 : 33
+parsed command is : ['R', '2', '3']
+X 3 : 33
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['end', '3']
+Transaction T3 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '3', '2', '22']
+parsed command is : ['W', '2', '4', '44']
+parsed command is : ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['R', '3', '4']
+X 4 : 44
+parsed command is : ['end', '3']
+Transaction T3 committed.
+parsed command is : ['R', '1', '2']
+X 2 : 22
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '3']
+parsed command is : ['W', '3', '2', '22']
+parsed command is : ['W', '2', '4', '44']
+parsed command is : ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['R', '3', '4']
+X 4 : 44
+parsed command is : ['end', '3']
+Transaction T3 committed.
+parsed command is : ['R', '1', '2']
+X 2 : 22
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '1', '2']
+X 2 : 22
+parsed command is : ['R', '2', '2']
+X 2 : 22
+parsed command is : ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '1']
+Transaction T1 committed.
+waitlist index 0, command is ['W', '2', '2', '10']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '1', '2']
+X 2 : 10
+parsed command is : ['R', '2', '2']
+X 2 : 10
+parsed command is : ['end', '1']
+Transaction T1 committed.
+parsed command is : ['W', '2', '2', '10']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '3']
+parsed command is : ['W', '3', '2', '10']
+parsed command is : ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '3']
+Transaction T3 committed.
+waitlist index 0, command is ['W', '2', '2', '10']
+waitlist index 0, command is ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['W', '1', '2', '10']
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '3']
+parsed command is : ['W', '3', '2', '10']
+parsed command is : ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '3']
+Transaction T3 committed.
+waitlist index 0, command is ['W', '1', '2', '10']
+waitlist index 0, command is ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '1']
+Transaction T1 committed.
+waitlist index 0, command is ['W', '2', '2', '10']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '5']
+parsed command is : ['begin', '4']
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '1']
+parsed command is : ['W', '1', '4', '5']
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['W', '2', '4', '44']
+parsed command is : ['recover', '2']
+Recover site 2 successful at time stamp 179
+parsed command is : ['W', '3', '4', '55']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '3', '4', '55']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['W', '4', '4', '66']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '3', '4', '55']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '4', '4', '66']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['W', '5', '4', '77']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '3', '4', '55']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '4', '4', '66']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 2, command is ['W', '5', '4', '77']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '1']
+Transaction T1 has been aborted.
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '3', '4', '55']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '4', '4', '66']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 2, command is ['W', '5', '4', '77']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['W', '3', '4', '55']
+waitlist index 0, command is ['W', '4', '4', '66']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '5', '4', '77']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '3']
+Transaction T3 committed.
+waitlist index 0, command is ['W', '4', '4', '66']
+waitlist index 0, command is ['W', '5', '4', '77']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '4']
+Transaction T4 committed.
+waitlist index 0, command is ['W', '5', '4', '77']
+parsed command is : ['end', '5']
+Transaction T5 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '3', '2', '22']
+parsed command is : ['W', '2', '4', '44']
+parsed command is : ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['R', '3', '4']
+X 4 : 44
+parsed command is : ['end', '3']
+Transaction T3 committed.
+parsed command is : ['R', '1', '2']
+X 2 : 22
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '3', '2', '22']
+parsed command is : ['W', '2', '3', '44']
+parsed command is : ['R', '3', '3']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '3', '3']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['R', '3', '3']
+X 3 : 44
+parsed command is : ['fail', '4']
+Has made site 4 failed
+parsed command is : ['end', '3']
+Transaction T3 has been aborted.
+parsed command is : ['R', '1', '2']
+X 2 : 22
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '4']
+parsed command is : ['begin', '5']
+parsed command is : ['R', '3', '3']
+waitlist index 0, command is ['R', '3', '3']
+parsed command is : ['R', '4', '4']
+X 4 : 44
+waitlist index 0, command is ['R', '3', '3']
+parsed command is : ['R', '5', '5']
+X 5 : 91
+waitlist index 0, command is ['R', '3', '3']
+parsed command is : ['R', '1', '1']
+X 1 : 101
+waitlist index 0, command is ['R', '3', '3']
+parsed command is : ['R', '2', '2']
+X 2 : 22
+waitlist index 0, command is ['R', '3', '3']
+parsed command is : ['W', '1', '2', '10']
+waitlist index 0, command is ['R', '3', '3']
+parsed command is : ['W', '2', '3', '20']
+waitlist index 0, command is ['R', '3', '3']
+waitlist index 1, command is ['W', '2', '3', '20']
+parsed command is : ['W', '3', '4', '30']
+waitlist index 0, command is ['R', '3', '3']
+waitlist index 1, command is ['W', '2', '3', '20']
+parsed command is : ['W', '4', '5', '40']
+waitlist index 0, command is ['R', '3', '3']
+waitlist index 1, command is ['W', '2', '3', '20']
+parsed command is : ['W', '5', '1', '50']
+waitlist index 0, command is ['R', '3', '3']
+waitlist index 1, command is ['W', '2', '3', '20']
+parsed command is : ['end', '4']
+Transaction T4 committed.
+waitlist index 0, command is ['R', '3', '3']
+waitlist index 1, command is ['W', '2', '3', '20']
+parsed command is : ['end', '3']
+Transaction T3 committed.
+waitlist index 0, command is ['R', '3', '3']
+waitlist index 0, command is ['W', '2', '3', '20']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['W', '2', '3', '20']
+parsed command is : ['end', '1']
+Transaction T1 committed.
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '4']
+parsed command is : ['begin', '5']
+Transaction initialization successful.
+parsed command is : ['R', '3', '3']
+waitlist index 0, command is ['R', '3', '3']
+parsed command is : ['fail', '4']
+Has made site 4 failed
+waitlist index 0, command is ['R', '3', '3']
+parsed command is : ['recover', '4']
+Recover site 4 successful at time stamp 275
+waitlist index 0, command is ['R', '3', '3']
+X 3 : 44
+parsed command is : ['R', '4', '4']
+X 4 : 30
+parsed command is : ['R', '5', '5']
+X 5 : 40
+parsed command is : ['R', '1', '6']
+X 6 : 60
+parsed command is : ['R', '2', '2']
+X 2 : 10
+parsed command is : ['W', '1', '2', '10']
+parsed command is : ['W', '2', '3', '20']
+parsed command is : ['W', '3', '4', '30']
+parsed command is : ['W', '5', '1', '50']
+parsed command is : ['end', '5']
+Transaction T5 committed.
+parsed command is : ['W', '4', '5', '40']
+parsed command is : ['end', '4']
+Transaction T4 committed.
+parsed command is : ['end', '3']
+Transaction T3 committed.
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '1', '2', '9']
+parsed command is : ['fail', '1']
+Has made site 1 failed
+parsed command is : ['end', '1']
+Transaction T1 has been aborted.
+parsed command is : ['begin', '3']
+parsed command is : ['W', '3', '2', '100']
+parsed command is : ['end', '3']
+Transaction T3 committed.
+parsed command is : ['recover', '1']
+Recover site 1 successful at time stamp 299
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['fail', '3']
+Has made site 3 failed
+parsed command is : ['fail', '4']
+Has made site 4 failed
+parsed command is : ['fail', '5']
+Has made site 5 failed
+parsed command is : ['fail', '6']
+Has made site 6 failed
+parsed command is : ['fail', '7']
+Has made site 7 failed
+parsed command is : ['fail', '8']
+Has made site 8 failed
+parsed command is : ['fail', '9']
+Has made site 9 failed
+parsed command is : ['fail', '10']
+Has made site 10 failed
+parsed command is : ['R', '2', '2']
+waitlist index 0, command is ['R', '2', '2']
+parsed command is : ['begin', '5']
+waitlist index 0, command is ['R', '2', '2']
+parsed command is : ['W', '5', '2', '90']
+waitlist index 0, command is ['R', '2', '2']
+parsed command is : ['begin', '1']
+waitlist index 0, command is ['R', '2', '2']
+parsed command is : ['begin', '2']
+Transaction initialization successful.
+waitlist index 0, command is ['R', '2', '2']
+parsed command is : ['R', '2', '2']
+waitlist index 0, command is ['R', '2', '2']
+waitlist index 1, command is ['R', '2', '2']
+parsed command is : ['W', '1', '2', '202']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '2', '2']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['R', '2', '2']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 2, command is ['W', '1', '2', '202']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['W', '2', '2', '302']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '2', '2']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['R', '2', '2']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 2, command is ['W', '1', '2', '202']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 3, command is ['W', '2', '2', '302']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '1']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '2', '2']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['R', '2', '2']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 2, command is ['W', '1', '2', '202']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 3, command is ['W', '2', '2', '302']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 4, command is ['end', '1']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['dump', '']
+site 1 - x2: 10, x4: 30, x8: 88
+site 2 - x1: 50, x2: 100, x4: 30, x8: 88
+site 3 - x2: 100, x4: 30, x8: 88
+site 4 - x2: 100, x3: 20, x4: 30, x8: 88
+site 5 - x2: 100, x4: 30, x8: 88
+site 6 - x2: 100, x4: 30, x5: 40, x8: 88
+site 7 - x2: 100, x4: 30, x8: 88
+site 8 - x2: 100, x4: 30, x8: 88
+site 9 - x2: 100, x4: 30, x8: 88
+site 10 - x2: 100, x4: 30, x8: 88
+
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '2', '2']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['R', '2', '2']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 2, command is ['W', '1', '2', '202']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 3, command is ['W', '2', '2', '302']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 4, command is ['end', '1']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+#################################### testcase1.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '1', '1', '101']
+parsed command is : ['W', '2', '2', '202']
+parsed command is : ['W', '1', '2', '102']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '1', '2', '102']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['W', '2', '1', '201']
+In while loop inside transaction manager, dead lock detection function
+There is a deadlock.
+Transaction  T2 is aborted.
+waitlist index 0, command is ['W', '1', '2', '102']
+waitlist index 0, command is ['W', '2', '1', '201']
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['dump', '']
+site 1 - x2: 102
+site 2 - x1: 101, x2: 102
+site 3 - x2: 102
+site 4 - x2: 102
+site 5 - x2: 102
+site 6 - x2: 102
+site 7 - x2: 102
+site 8 - x2: 102
+site 9 - x2: 102
+site 10 - x2: 102
+
+No transactions now
+===================================================================================================
+#################################### testcase10.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '3']
+parsed command is : ['W', '3', '2', '22']
+parsed command is : ['W', '2', '4', '44']
+parsed command is : ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['R', '3', '4']
+X 4 : 44
+parsed command is : ['end', '3']
+Transaction T3 committed.
+parsed command is : ['R', '1', '2']
+X 2 : 22
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+#################################### testcase11.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '1', '2']
+X 2 : 20
+parsed command is : ['R', '2', '2']
+X 2 : 20
+parsed command is : ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '1']
+Transaction T1 committed.
+waitlist index 0, command is ['W', '2', '2', '10']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+#################################### testcase12.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '1', '2']
+X 2 : 20
+parsed command is : ['R', '2', '2']
+X 2 : 20
+parsed command is : ['end', '1']
+Transaction T1 committed.
+parsed command is : ['W', '2', '2', '10']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+#################################### testcase13.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '3']
+parsed command is : ['W', '3', '2', '10']
+parsed command is : ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '3']
+Transaction T3 committed.
+waitlist index 0, command is ['W', '2', '2', '10']
+waitlist index 0, command is ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['W', '1', '2', '10']
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+#################################### testcase14.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '3']
+parsed command is : ['W', '3', '2', '10']
+parsed command is : ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '1', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '3']
+Transaction T3 committed.
+waitlist index 0, command is ['W', '1', '2', '10']
+waitlist index 0, command is ['W', '2', '2', '10']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '1']
+Transaction T1 committed.
+waitlist index 0, command is ['W', '2', '2', '10']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+#################################### testcase15.txt #######################################
+file loaded
+parsed command is : ['begin', '5']
+parsed command is : ['begin', '4']
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '1']
+parsed command is : ['W', '1', '4', '5']
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['W', '2', '4', '44']
+parsed command is : ['recover', '2']
+Recover site 2 successful at time stamp 8
+parsed command is : ['W', '3', '4', '55']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '3', '4', '55']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['W', '4', '4', '66']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '3', '4', '55']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '4', '4', '66']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['W', '5', '4', '77']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '3', '4', '55']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '4', '4', '66']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 2, command is ['W', '5', '4', '77']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '1']
+Transaction T1 has been aborted.
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '3', '4', '55']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '4', '4', '66']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+waitlist index 2, command is ['W', '5', '4', '77']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['W', '3', '4', '55']
+waitlist index 0, command is ['W', '4', '4', '66']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 1, command is ['W', '5', '4', '77']
+In while loop inside transaction manager, dead lock detection function
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '3']
+Transaction T3 committed.
+waitlist index 0, command is ['W', '4', '4', '66']
+waitlist index 0, command is ['W', '5', '4', '77']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '4']
+Transaction T4 committed.
+waitlist index 0, command is ['W', '5', '4', '77']
+parsed command is : ['end', '5']
+Transaction T5 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['dump', '']
+site 1 - x4: 77
+site 2 - x4: 77
+site 3 - x4: 77
+site 4 - x4: 77
+site 5 - x4: 77
+site 6 - x4: 77
+site 7 - x4: 77
+site 8 - x4: 77
+site 9 - x4: 77
+site 10 - x4: 77
+
+No transactions now
+===================================================================================================
+#################################### testcase16.txt #######################################
+file loaded
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '3', '2', '22']
+parsed command is : ['W', '2', '4', '44']
+parsed command is : ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['R', '3', '4']
+X 4 : 44
+parsed command is : ['end', '3']
+Transaction T3 committed.
+parsed command is : ['R', '1', '2']
+X 2 : 22
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+#################################### testcase17.txt #######################################
+file loaded
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '3', '2', '22']
+parsed command is : ['W', '2', '3', '44']
+parsed command is : ['R', '3', '3']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '3', '3']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['R', '3', '3']
+X 3 : 44
+parsed command is : ['fail', '4']
+Has made site 4 failed
+parsed command is : ['end', '3']
+Transaction T3 has been aborted.
+parsed command is : ['R', '1', '2']
+X 2 : 20
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+#################################### testcase18.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '4']
+parsed command is : ['begin', '5']
+parsed command is : ['R', '3', '3']
+X 3 : 30
+parsed command is : ['R', '4', '4']
+X 4 : 40
+parsed command is : ['R', '5', '5']
+X 5 : 50
+parsed command is : ['R', '1', '1']
+X 1 : 10
+parsed command is : ['R', '2', '2']
+X 2 : 20
+parsed command is : ['W', '1', '2', '10']
+parsed command is : ['W', '2', '3', '20']
+parsed command is : ['W', '3', '4', '30']
+parsed command is : ['W', '4', '5', '40']
+parsed command is : ['W', '5', '1', '50']
+parsed command is : ['end', '4']
+Transaction T4 committed.
+parsed command is : ['end', '3']
+Transaction T3 committed.
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['end', '1']
+Transaction T1 committed.
+#################################### testcase19.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '4']
+parsed command is : ['begin', '5']
+parsed command is : ['R', '3', '3']
+X 3 : 30
+parsed command is : ['fail', '4']
+Has made site 4 failed
+parsed command is : ['recover', '4']
+Recover site 4 successful at time stamp 7
+parsed command is : ['R', '4', '4']
+X 4 : 40
+parsed command is : ['R', '5', '5']
+X 5 : 50
+parsed command is : ['R', '1', '6']
+X 6 : 60
+parsed command is : ['R', '2', '2']
+X 2 : 20
+parsed command is : ['W', '1', '2', '10']
+parsed command is : ['W', '2', '3', '20']
+parsed command is : ['W', '3', '4', '30']
+parsed command is : ['W', '5', '1', '50']
+parsed command is : ['end', '5']
+Transaction T5 committed.
+parsed command is : ['W', '4', '5', '40']
+parsed command is : ['end', '4']
+Transaction T4 committed.
+parsed command is : ['end', '3']
+Transaction T3 has been aborted.
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+#################################### testcase2.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['beginRO', '2']
+parsed command is : ['W', '1', '1', '101']
+parsed command is : ['R', '2', '2']
+X 2 : 20
+parsed command is : ['W', '1', '2', '102']
+parsed command is : ['R', '2', '1']
+X 1 : 10
+parsed command is : ['end', '1']
+Transaction T1 committed.
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['dump', '']
+site 1 - x2: 102
+site 2 - x1: 101, x2: 102
+site 3 - x2: 102
+site 4 - x2: 102
+site 5 - x2: 102
+site 6 - x2: 102
+site 7 - x2: 102
+site 8 - x2: 102
+site 9 - x2: 102
+site 10 - x2: 102
+
+No transactions now
+===================================================================================================
+#################################### testcase20.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '1', '2', '9']
+parsed command is : ['fail', '1']
+Has made site 1 failed
+parsed command is : ['end', '1']
+Transaction T1 has been aborted.
+parsed command is : ['begin', '3']
+parsed command is : ['W', '3', '2', '100']
+parsed command is : ['end', '3']
+Transaction T3 committed.
+parsed command is : ['recover', '1']
+Recover site 1 successful at time stamp 8
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['fail', '3']
+Has made site 3 failed
+parsed command is : ['fail', '4']
+Has made site 4 failed
+parsed command is : ['fail', '5']
+Has made site 5 failed
+parsed command is : ['fail', '6']
+Has made site 6 failed
+parsed command is : ['fail', '7']
+Has made site 7 failed
+parsed command is : ['fail', '8']
+Has made site 8 failed
+parsed command is : ['fail', '9']
+Has made site 9 failed
+parsed command is : ['fail', '10']
+Has made site 10 failed
+parsed command is : ['R', '2', '2']
+waitlist index 0, command is ['R', '2', '2']
+parsed command is : ['begin', '5']
+waitlist index 0, command is ['R', '2', '2']
+parsed command is : ['W', '5', '2', '90']
+waitlist index 0, command is ['R', '2', '2']
+#################################### testcase21.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '2', '2']
+X 2 : 20
+parsed command is : ['W', '1', '2', '202']
+parsed command is : ['W', '2', '2', '302']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['W', '2', '2', '302']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '1']
+Transaction T1 committed.
+waitlist index 0, command is ['W', '2', '2', '302']
+parsed command is : ['dump', '']
+site 1 - x2: 202
+site 2 - x2: 202
+site 3 - x2: 202
+site 4 - x2: 202
+site 5 - x2: 202
+site 6 - x2: 202
+site 7 - x2: 202
+site 8 - x2: 202
+site 9 - x2: 202
+site 10 - x2: 202
+
+#################################### testcase22.txt #######################################
+file loaded
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '3', '2', '22']
+parsed command is : ['W', '2', '4', '44']
+parsed command is : ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['R', '3', '4']
+X 4 : 44
+parsed command is : ['end', '3']
+Transaction T3 committed.
+parsed command is : ['R', '1', '2']
+X 2 : 22
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+#################################### testcase23.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '2', '2']
+X 2 : 20
+parsed command is : ['W', '1', '2', '19']
+parsed command is : ['dump', '2']
+site 1
+site 2
+site 3
+site 4
+site 5
+site 6
+site 7
+site 8
+site 9
+site 10
+
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['dump', '2']
+site 1 - x2: 19
+site 2 - x2: 19
+site 3 - x2: 19
+site 4 - x2: 19
+site 5 - x2: 19
+site 6 - x2: 19
+site 7 - x2: 19
+site 8 - x2: 19
+site 9 - x2: 19
+site 10 - x2: 19
+
+No transactions now
+===================================================================================================
+#################################### testcase3.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '1', '3']
+X 3 : 30
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['W', '2', '8', '88']
+parsed command is : ['R', '2', '3']
+X 3 : 30
+parsed command is : ['W', '1', '5', '91']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['recover', '2']
+Recover site 2 successful at time stamp 8
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['dump', '']
+site 1 - x8: 88
+site 2
+site 3 - x8: 88
+site 4 - x8: 88
+site 5 - x8: 88
+site 6 - x5: 91, x8: 88
+site 7 - x8: 88
+site 8 - x8: 88
+site 9 - x8: 88
+site 10 - x8: 88
+
+No transactions now
+===================================================================================================
+#################################### testcase4.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['R', '1', '1']
+X 1 : 10
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['W', '2', '8', '88']
+parsed command is : ['R', '2', '3']
+X 3 : 30
+parsed command is : ['R', '1', '5']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['recover', '2']
+Recover site 2 successful at time stamp 8
+parsed command is : ['end', '1']
+Transaction T1 has been aborted.
+No transactions now
+===================================================================================================
+parsed command is : ['dump', '']
+site 1 - x8: 88
+site 2
+site 3 - x8: 88
+site 4 - x8: 88
+site 5 - x8: 88
+site 6 - x8: 88
+site 7 - x8: 88
+site 8 - x8: 88
+site 9 - x8: 88
+site 10 - x8: 88
+
+No transactions now
+===================================================================================================
+#################################### testcase5.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '1', '6', '66']
+parsed command is : ['fail', '2']
+Has made site 2 failed
+parsed command is : ['W', '2', '8', '88']
+parsed command is : ['R', '1', '5']
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['recover', '2']
+Recover site 2 successful at time stamp 7
+parsed command is : ['end', '1']
+Transaction T1 has been aborted.
+No transactions now
+===================================================================================================
+#################################### testcase6.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['fail', '3']
+Has made site 3 failed
+parsed command is : ['fail', '4']
+Has made site 4 failed
+parsed command is : ['R', '1', '1']
+X 1 : 10
+parsed command is : ['W', '2', '8', '88']
+parsed command is : ['end', '1']
+Transaction T1 committed.
+parsed command is : ['recover', '4']
+Recover site 4 successful at time stamp 7
+parsed command is : ['recover', '3']
+Recover site 3 successful at time stamp 8
+parsed command is : ['R', '2', '3']
+X 3 : 30
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+parsed command is : ['dump', '']
+site 1 - x8: 88
+site 2 - x8: 88
+site 3
+site 4
+site 5 - x8: 88
+site 6 - x8: 88
+site 7 - x8: 88
+site 8 - x8: 88
+site 9 - x8: 88
+site 10 - x8: 88
+
+No transactions now
+===================================================================================================
+#################################### testcase7.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['beginRO', '2']
+parsed command is : ['R', '2', '1']
+X 1 : 10
+parsed command is : ['R', '2', '2']
+X 2 : 20
+parsed command is : ['W', '1', '3', '33']
+parsed command is : ['end', '1']
+Transaction T1 committed.
+parsed command is : ['R', '2', '3']
+X 3 : 30
+parsed command is : ['end', '2']
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+#################################### testcase8.txt #######################################
+file loaded
+parsed command is : ['begin', '1']
+parsed command is : ['beginRO', '2']
+parsed command is : ['R', '2', '1']
+X 1 : 10
+parsed command is : ['R', '2', '2']
+X 2 : 20
+parsed command is : ['W', '1', '3', '33']
+parsed command is : ['end', '1']
+Transaction T1 committed.
+parsed command is : ['beginRO', '3']
+parsed command is : ['R', '3', '3']
+X 3 : 33
+parsed command is : ['R', '2', '3']
+X 3 : 30
+parsed command is : ['end', '2']
+Transaction T2 committed.
+parsed command is : ['end', '3']
+Transaction T3 committed.
+No transactions now
+===================================================================================================
+#################################### testcase9.txt #######################################
+file loaded
+parsed command is : ['begin', '3']
+parsed command is : ['begin', '1']
+parsed command is : ['begin', '2']
+parsed command is : ['W', '3', '2', '22']
+parsed command is : ['W', '2', '4', '44']
+parsed command is : ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+waitlist index 0, command is ['R', '3', '4']
+In while loop inside transaction manager, dead lock detection function
+parsed command is : ['end', '2']
+Transaction T2 committed.
+waitlist index 0, command is ['R', '3', '4']
+X 4 : 44
+parsed command is : ['end', '3']
+Transaction T3 committed.
+parsed command is : ['R', '1', '2']
+X 2 : 22
+parsed command is : ['end', '1']
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+
+Process finished with exit code 0
