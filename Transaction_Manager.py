@@ -52,7 +52,9 @@ class Transaction_Manager:
                 print("X %s : %s" % (str(variable_id), str(variable_value)))
                 return True
         else:
+            # may need to add the restriction that just recovered site cannot read
             for i in range(1, Constant.NUMBER_OF_SITES + 1):
+
                 if self.get_read_lock(trans_id, variable_id, i) == True:
                     curr_transaction.sites_accessed.add(i)
                 variable_value = self.data_mgr.get_site_variable_value(i, variable_id)
@@ -168,13 +170,16 @@ class Transaction_Manager:
         my_string = ""
         for i in range(1, Constant.NUMBER_OF_SITES + 1):
             curr_site = self.data_mgr.get_site_instance(i)
-            my_string += str("site {} - ".format(i) )
+            my_string += str("site {} - ".format(i))
             table_keys = list(sorted(curr_site.vartable.keys()))
-            for table_idx in table_keys:
-                variable_list = curr_site.vartable[table_idx]
+            for table_idx in range(len(table_keys)):
+                variable_list = curr_site.vartable[table_keys[table_idx]]
                 if variable_list[-1].get_version() == -1:
                     continue
-                my_string += str(" x {} : {} ".format(str(table_idx), str(variable_list[-1].get_value())) )
+
+                my_string += str(
+                    " x{} : {}, ".format(str(table_keys[table_idx]), str(variable_list[-1].get_value())))
+            my_string = my_string[:len(my_string)-2]
             my_string += "\n"
         print(my_string)
         return True
@@ -213,7 +218,7 @@ class Transaction_Manager:
                 if curr_transaction.waiting_for_trans_id in trans_list:
                     print("There is a deadlock.")
                     youngest_id = self.find_yongest(trans_list)
-                    print("Transaction  T{} is aborted.".format(youngest_id) )
+                    print("Transaction  T{} is aborted.".format(youngest_id))
                     self.abort_trans(youngest_id)
                     self.trans_map.pop(youngest_id)
                     return -1
@@ -275,7 +280,7 @@ class Transaction_Manager:
 
     def recover(self, site_id):
         self.data_mgr.recover_site(site_id, self.time_stamp)
-        print("Recover site %d successful at time stamp %s" % (site_id, str(self.time_stamp)) )
+        print("Recover site %d successful at time stamp %s" % (site_id, str(self.time_stamp)))
         return True
 
     def fail(self, site_id):
@@ -289,7 +294,6 @@ class Transaction_Manager:
             return False
         else:
             return True
-
 
 # if __name__ == "__main__":
 #     t = Transaction_Manager()

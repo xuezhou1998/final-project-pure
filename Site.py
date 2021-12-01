@@ -133,6 +133,8 @@ class Site:
         v = Variable(time_stamp, value)
         # v = Variable(value, time_stamp)
         self.vartable[var_id].append(v)
+        ###############################
+        self.just_recovery = False
 
     def site_recover(self, time_stamp, last_fail_time):
         self.recover_time = time_stamp
