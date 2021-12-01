@@ -29,23 +29,20 @@ class Transaction_Manager:
         return True
 
     def read(self, trans_id, variable_id):
-        if self.alive_checker(trans_id) == False:
-            return True
-
         curr_transaction = self.trans_map[trans_id]
-        if curr_transaction.blocked == True:
-            return False
-        if curr_transaction.aborted == True:
+        if (not self.alive_checker(trans_id)) or curr_transaction.aborted:
             return True
-        if curr_transaction.read_only == True:
+        if curr_transaction.blocked:
+            return False
+        if curr_transaction.read_only:
             return self.read_read_only(curr_transaction, variable_id)
         if variable_id in curr_transaction.cache.keys():
             variable_value = curr_transaction.cache[variable_id]
             print("X %s : %s" % (str(variable_id), str(variable_value)))
             return True
-        if self.is_replicated_variable(variable_id) == False:
+        if not self.is_replicated_variable(variable_id):
             site_id = variable_id % Constant.NUMBER_OF_SITES + 1
-            if self.get_read_lock(trans_id, variable_id, site_id) == True:
+            if self.get_read_lock(trans_id, variable_id, site_id):
                 # if site_id not in curr_transaction.sites_accessed:
                 curr_transaction.sites_accessed.add(site_id)
                 variable_value = self.data_mgr.get_site_variable_value(site_id, variable_id)
@@ -60,7 +57,7 @@ class Transaction_Manager:
                 if self.is_replicated_variable(variable_id) and curr_site.just_recovery:
                     if curr_site.get_var_last_commited_time(variable_id) < self.data_mgr.get_last_fail_time(i):
                         continue
-                if self.get_read_lock(trans_id, variable_id, i) == True:
+                if self.get_read_lock(trans_id, variable_id, i):
                     curr_transaction.sites_accessed.add(i)
                     variable_value = self.data_mgr.get_site_variable_value(i, variable_id)
                     print("X %s : %s" % (str(variable_id), str(variable_value)))
@@ -92,19 +89,19 @@ class Transaction_Manager:
         return False
 
     def write(self, trans_id, variable_id, variable_value):
-        if self.alive_checker(trans_id) != True:
-            return True
+
         curr_transaction = self.trans_map[trans_id]
-        if curr_transaction.aborted == True:
+        if (not self.alive_checker(trans_id)) or curr_transaction.aborted:
             return True
-        if curr_transaction.blocked == True:
+        if curr_transaction.blocked:
             return False
-        if self.is_replicated_variable(variable_id) == False:
+
+        if not self.is_replicated_variable(variable_id):
             site_id = variable_id % Constant.NUMBER_OF_SITES + 1
-            if self.data_mgr.is_site_failed(site_id) == True:
+            if self.data_mgr.is_site_failed(site_id):
                 return False
             curr_site = self.data_mgr.get_site_instance(site_id)
-            if curr_site.can_get_write_lock(trans_id, variable_id) == True:
+            if curr_site.can_get_write_lock(trans_id, variable_id):
                 curr_site.add_write_lock(trans_id, variable_id, self.time_stamp)
                 curr_site.clear_wait_lock(trans_id, variable_id)
                 curr_transaction.sites_accessed.add(site_id)
