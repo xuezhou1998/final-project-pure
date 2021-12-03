@@ -231,7 +231,7 @@ class Transaction_Manager:
                     return -1
                 trans_list.append(curr_transaction.waiting_for_trans_id)
                 curr_transaction = self.trans_map[curr_transaction.waiting_for_trans_id]
-                print("In while loop inside transaction manager, dead lock detection function")
+                # print("In while loop inside transaction manager, dead lock detection function")
         return 0
 
     def find_yongest(self, trans_id_list):

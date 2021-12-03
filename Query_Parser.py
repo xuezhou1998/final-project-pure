@@ -21,7 +21,7 @@ def parse_query(input_query: str) -> List:
     commd = input_query[:input_query.index("(")]
     res.append(commd)
     res += get_argument(input_query)
-    print("parsed command is : {}".format(str(res)) )
+    # print("parsed command is : {}".format(str(res)) )
     return res
 
 

@@ -44,7 +44,7 @@ def main_file(input_file_path):
 
         if len(cmmd_waitlist) > 0 and waitlist_idx < len(cmmd_waitlist):
             fetched = cmmd_waitlist[waitlist_idx]
-            print("waitlist index {}, command is {}".format(waitlist_idx, fetched))
+            # print("waitlist index {}, command is {}".format(waitlist_idx, fetched))
 
             in_waitlist = True
         else:
@@ -88,6 +88,7 @@ def main_file(input_file_path):
         else:
             if in_waitlist == False:
                 cmmd_waitlist.append(fetched)
+                print("instruction is waiting: {}".format(fetched))
                 waitlist_idx = 0
             else:
                 waitlist_idx += 1
@@ -100,7 +101,7 @@ def main_file(input_file_path):
 
 
 if __name__ == "__main__":
-    main("testcases.txt")
+    # main("testcases.txt")
     main("testCases")
     # main("testCases/testcase2.txt")
     # t=Transaction_Manager()
