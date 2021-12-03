@@ -91,8 +91,10 @@ class Transaction_Manager:
 
     def write(self, trans_id, variable_id, variable_value):
 
-        curr_transaction = self.get(trans_id) ###########################
-        if (not self.alive_checker(trans_id)) or curr_transaction.aborted:
+        if (not self.alive_checker(trans_id)) :
+            return True
+        curr_transaction = self.get(trans_id)  ###########################
+        if curr_transaction.aborted:
             return True
         if curr_transaction.blocked:
             return False
