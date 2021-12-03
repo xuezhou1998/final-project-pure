@@ -10,7 +10,6 @@ class Transaction_Manager:
         self.data_mgr = Data_Manager()
         self.trans_map = {}  ##integer: transaction
 
-
     def get(self, trans_id):
         if trans_id not in self.trans_map.keys():
             raise Exception("The transaction %d does not exist" % trans_id)
@@ -30,8 +29,11 @@ class Transaction_Manager:
         return True
 
     def read(self, trans_id, variable_id):
-        curr_transaction = self.trans_map[trans_id]
-        if (not self.alive_checker(trans_id)) or curr_transaction.aborted:
+
+        if (not self.alive_checker(trans_id)):
+            return True
+        curr_transaction = self.get(trans_id)
+        if curr_transaction.aborted:
             return True
         if curr_transaction.blocked:
             return False
@@ -91,7 +93,7 @@ class Transaction_Manager:
 
     def write(self, trans_id, variable_id, variable_value):
 
-        if (not self.alive_checker(trans_id)) :
+        if (not self.alive_checker(trans_id)):
             return True
         curr_transaction = self.get(trans_id)  ###########################
         if curr_transaction.aborted:
@@ -184,7 +186,7 @@ class Transaction_Manager:
 
                 my_string += str(
                     "x{}: {}, ".format(str(table_keys[table_idx]), str(variable_list[-1].get_value())))
-            my_string = my_string[:len(my_string)-2]
+            my_string = my_string[:len(my_string) - 2]
             my_string += "\n"
         print(my_string)
         return True
@@ -299,6 +301,7 @@ class Transaction_Manager:
             return False
         else:
             return True
+
     def trans_mgr_db(self):
         pass
 
