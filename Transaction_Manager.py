@@ -1,6 +1,8 @@
 # import typing_extensions
 from Data_Manager import Data_Manager
 from Transaction import Transaction
+from Site import Site
+from Variable import Variable
 import Constant
 
 
@@ -9,6 +11,12 @@ class Transaction_Manager:
         self.time_stamp = 0
         self.data_mgr = Data_Manager()
         self.trans_map = {}  ##integer: transaction
+        self.site_failure_hist={}
+        self.site_instances = {}
+        for i in range(1, Constant.NUMBER_OF_SITES+1):
+            self.site_failure_hist["Site{}".format(i)]=[]
+            self.site_instances["Site{}".format(i)] = Site(i)
+
 
     def get(self, trans_id):
         if trans_id not in self.trans_map.keys():
@@ -29,124 +37,44 @@ class Transaction_Manager:
         return True
 
     def read(self, trans_id, variable_id):
-
-        if (not self.alive_checker(trans_id)):
+        if not self.alive_checker(trans_id):
             return True
-        curr_transaction = self.get(trans_id)
-        if curr_transaction.aborted:
-            return True
-        if curr_transaction.blocked:
-            return False
+        else:
+            curr_transaction = self.get(trans_id)
+            if curr_transaction.aborted:
+                return True
         if curr_transaction.read_only:
-            return self.read_read_only(curr_transaction, variable_id)
-        if variable_id in curr_transaction.cache.keys():
-            variable_value = curr_transaction.cache[variable_id]
-            print("X %s : %s" % (str(variable_id), str(variable_value)))
-            return True
-        if not self.is_replicated_variable(variable_id):
-            site_id = variable_id % Constant.NUMBER_OF_SITES + 1
-            if self.get_read_lock(trans_id, variable_id, site_id):
-                # if site_id not in curr_transaction.sites_accessed:
-                curr_transaction.sites_accessed.add(site_id)
-                variable_value = self.data_mgr.get_site_variable_value(site_id, variable_id)
-                print("X %s : %s" % (str(variable_id), str(variable_value)))
-                return True
+            for curr_site in self.site_instances.values():
+                if not curr_site.fail:
+                    if self.is_replicated_variable(variable_id) and (not curr_site.just_recovery):
+                        curr_site.add_version_variable(self.time_stamp, variable_id)
+                        return True
+                    elif not self.is_replicated_variable(variable_id):
+                        curr_site.add_version_variable(self.time_stamp, variable_id)
+                        return True
+                    else:
+                        return False
+            return False
         else:
-            # may need to add the restriction that just recovered site cannot read
-
-            for i in range(1, Constant.NUMBER_OF_SITES + 1):
-                # first check the restriction of just recovered site
-                curr_site = self.data_mgr.get_site_instance(i)
-                if self.is_replicated_variable(variable_id) and curr_site.just_recovery:
-                    if curr_site.get_var_last_commited_time(variable_id) < self.data_mgr.get_last_fail_time(i):
-                        continue
-                if self.get_read_lock(trans_id, variable_id, i):
-                    curr_transaction.sites_accessed.add(i)
-                    variable_value = self.data_mgr.get_site_variable_value(i, variable_id)
-                    print("X %s : %s" % (str(variable_id), str(variable_value)))
-                    return True
-        return False
-
-    def read_read_only(self, curr_transaction, variable_id):
-        if self.is_replicated_variable(variable_id) == False:
-            site_id = variable_id % Constant.NUMBER_OF_SITES + 1
-
-            if self.data_mgr.is_site_failed(site_id) == True:
-                return False
-            else:
-                variable_value = self.data_mgr.read_only_non_replicated_read(variable_id, curr_transaction.start_time,
-                                                                             site_id)
-                print("X %s : %s" % (str(variable_id), str(variable_value)))
-                return True
-        else:
-            for i in range(1, Constant.NUMBER_OF_SITES + 1):
-                if self.data_mgr.is_site_failed(i) == True:
-                    continue
-                curr_site = self.data_mgr.get_site_instance(i)
-                variable_value = self.data_mgr.read_only_replicated_read(variable_id, curr_transaction.start_time, i)
-                if variable_value == -1:
-                    continue
-                else:
-                    print("X %s : %s" % (str(variable_id), str(variable_value)))
-                    return True
-        return False
+            for curr_site in self.site_instances.values():
+                if not curr_site.fail:
+                    if self.is_replicated_variable(variable_id) and (not curr_site.just_recovery):
+                        if curr_site.can_get_read_lock(trans_id, variable_id):
+                            curr_site.add_read_lock(trans_id, variable_id)
+                            curr_site.add_version_variable(self.time_stamp, variable_id)
+                            return True
+                    elif not self.is_replicated_variable(variable_id):
+                        if curr_site.can_get_read_lock(trans_id, variable_id):
+                            curr_site.add_read_lock(trans_id, variable_id)
+                            curr_site.add_version_variable(self.time_stamp, variable_id)
+                            return True
+                    else:
+                        return False
+            return False
 
     def write(self, trans_id, variable_id, variable_value):
 
-        if (not self.alive_checker(trans_id)):
-            return True
-        curr_transaction = self.get(trans_id)  ###########################
-        if curr_transaction.aborted:
-            return True
-        if curr_transaction.blocked:
-            return False
 
-        if not self.is_replicated_variable(variable_id):
-            site_id = variable_id % Constant.NUMBER_OF_SITES + 1
-            if self.data_mgr.is_site_failed(site_id):
-                return False
-            curr_site = self.data_mgr.get_site_instance(site_id)
-            if curr_site.can_get_write_lock(trans_id, variable_id):
-                curr_site.add_write_lock(trans_id, variable_id, self.time_stamp)
-                curr_site.clear_wait_lock(trans_id, variable_id)
-                curr_transaction.sites_accessed.add(site_id)
-                curr_transaction.cache[variable_id] = variable_value
-                curr_transaction.sites[variable_id] = [site_id]
-                return True
-            else:
-                curr_site.add_write_lock(trans_id, variable_id, self.time_stamp)
-                wait_id = curr_site.get_waiting_id(variable_id, trans_id)
-                curr_transaction.waiting_for_trans_id = wait_id
-                curr_transaction.blocked = True
-                return False
-        else:
-            id_list = []
-            should_be_blocked = False
-            wait_id = -1
-            for i in range(1, Constant.NUMBER_OF_SITES + 1):
-                if self.data_mgr.is_site_failed(i):
-                    continue
-                curr_site = self.data_mgr.get_site_instance(i)
-                if not curr_site.can_get_write_lock(trans_id, variable_id):
-                    should_be_blocked = True
-                    wait_id = curr_site.get_waiting_id(variable_id, trans_id)
-                id_list.append(i)
-            if should_be_blocked:
-                for id_item in id_list:
-                    curr_site = self.data_mgr.get_site_instance(id_item)
-                    curr_site.add_wait_lock(trans_id, variable_id, self.time_stamp)
-                curr_transaction.waiting_for_trans_id = wait_id
-                curr_transaction.blocked = True
-                return False
-            else:
-                for id_item in id_list:
-                    curr_site = self.data_mgr.get_site_instance(id_item)
-                    curr_site.add_write_lock(trans_id, variable_id, self.time_stamp)
-                    curr_transaction.sites_accessed.add(id_item)
-                    curr_site.clear_wait_lock(trans_id, variable_id)
-                curr_transaction.cache[variable_id] = variable_value
-                curr_transaction.sites[variable_id] = id_list
-                return True
 
     def block_trans(self, trans_id):
         curr_transaction = self.trans_map[trans_id]
@@ -171,6 +99,7 @@ class Transaction_Manager:
                 self.data_mgr.release_site_locks(trans_id, accessed_site_item)
             self.unblock_trans(trans_id)
             self.trans_map.pop(trans_id)
+
         return True
 
     def dump(self):

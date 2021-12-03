@@ -23,6 +23,3 @@ def parse_query(input_query: str) -> List:
     res += get_argument(input_query)
     # print("parsed command is : {}".format(str(res)) )
     return res
-
-
-

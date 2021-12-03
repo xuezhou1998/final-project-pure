@@ -5,7 +5,6 @@ from Transaction_Manager import Transaction_Manager
 
 def main(input_path):
     """
-
     :rtype: None
     """
     # checks if path is a file

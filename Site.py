@@ -24,14 +24,14 @@ class Site:
                     var = Variable(-1, 10 * i)
                     self.vartable[i] = list()
                     self.vartable[i].append(var)
-
         self.lock_table = dict()
+
         self.waiting_for_locktable = dict()
 
     def get_value(self, variable_id):
         self.site_db()##################################################
-        size = len(self.vartable[variable_id])
-        return self.vartable[variable_id][size - 1].value
+        # size = len(self.vartable[variable_id])
+        return self.vartable[variable_id][-1].value
 
     def has_variable(self, variable_id):
         if variable_id % 2 == 0:
@@ -142,7 +142,7 @@ class Site:
         # v = Variable(value, time_stamp)
         self.vartable[var_id].append(v)
         ###############################
-        self.just_recovery = False
+        # self.just_recovery = False
         return 0
     def site_recover(self, time_stamp, last_fail_time):
         self.recover_time = time_stamp
@@ -160,6 +160,11 @@ class Site:
                     # self.lock_table[i].pop(j-1)
                     new_list.append(lock_instance[j])
             self.lock_table[i] = new_list.copy()
+        return 0
+    def add_version_variable(self, time_stamp, variable_id):
+        var_value = self.get_value(variable_id)
+        var_instance = Variable(time_stamp, var_value)
+        self.vartable[variable_id].append(var_instance)
         return 0
     def site_db(self):
         pass
