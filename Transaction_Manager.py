@@ -215,12 +215,14 @@ class Transaction_Manager:
 #has some problem blow
     def abort_trans_multi(self, site_id):
         curr_site = self.site_instances(site_id)
-        for i in self.trans_map.keys():
-            curr_transaction = self.trans_map[i]
+        for trans_id in self.trans_map.keys():
+            curr_transaction = self.trans_map[trans_id]
 
             if curr_site in curr_transaction.sites_accessed:
-                self.abort_trans(i)
+                self.abort_trans(trans_id)
         return 0
+# read only trans may not need to be aborted when the site fails
+######################### has some problem above
 
     def abort_trans(self, trans_id):
         curr_transaction = self.trans_map[trans_id]
