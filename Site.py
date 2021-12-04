@@ -7,12 +7,12 @@ class Site:
     def __init__(self, site_id) -> None:
         self.site_id = site_id
         self.arraynum = 20
-        self.just_recovery = False
-        self.recover_time = 0
-        self.last_fail_time = 0
-        self.fail = False
+        self.just_recovery = False ###########################
+        self.recover_time = -1
+        self.last_fail_time = -2
+        self.fail = False ####################
 
-        self.vartable = dict()
+        self.vartable = dict() ################
 
         for i in range(1, self.arraynum + 1):
             if i % 2 == 0:
@@ -24,7 +24,7 @@ class Site:
                     var = Variable(-1, 10 * i)
                     self.vartable[i] = list()
                     self.vartable[i].append(var)
-        self.lock_table = dict()
+        self.lock_table = dict() #####################
 
         self.waiting_for_locktable = dict()
 
@@ -54,6 +54,7 @@ class Site:
             self.waiting_for_locktable[var_id] = lock_1
         return 0
     def add_write_lock(self, transaction_id, variable_id, time_stamp):
+        ###################################################################
         if variable_id not in self.lock_table or len(self.lock_table[variable_id]) == 0:
             self.lock_table[variable_id] = list()
             lock_1 = Lock('W', time_stamp, transaction_id)
@@ -88,6 +89,7 @@ class Site:
                 return False
 
     def can_get_read_lock(self, transaction_id, variable_id):
+        ###################################################################
         self.site_db()  ######################################################################
         if variable_id not in self.lock_table.keys() or len(self.lock_table[variable_id]) == 0:
             self.site_db()  ######################################################################
@@ -110,6 +112,7 @@ class Site:
         return -1
 
     def add_read_lock(self, transaction_id, variable_id, time_stamp):
+        ###################################################################
         if variable_id not in self.lock_table.keys() or len(self.lock_table[variable_id]) == 0:
             self.lock_table[variable_id] = list()
             lock_1 = Lock('R', time_stamp, transaction_id)
@@ -131,12 +134,15 @@ class Site:
 
         return 2
 
-    def site_fail(self):
+    def site_fail(self, time_stamp):
+        ###################################################################
         self.lock_table.clear()
         self.waiting_for_locktable.clear()
         self.fail = True
+        self.last_fail_time = time_stamp
         return 0
     def write(self, var_id, value, time_stamp):
+        ###################################################################
         lists = self.vartable[var_id]
         v = Variable(time_stamp, value)
         # v = Variable(value, time_stamp)
@@ -145,12 +151,14 @@ class Site:
         # self.just_recovery = False
         return 0
     def site_recover(self, time_stamp, last_fail_time):
+        ###################################################################
         self.recover_time = time_stamp
         self.just_recovery = True
         self.fail = False
         self.last_fail_time = last_fail_time
         return 0
     def release_lock(self, transaction_id):
+        ###################################################################
         for i in list(self.lock_table.keys()):
             lock_instance = self.lock_table[i]
             new_list = []
@@ -162,6 +170,7 @@ class Site:
             self.lock_table[i] = new_list.copy()
         return 0
     def add_version_variable(self, time_stamp, variable_id):
+        ###################################################################
         var_value = self.get_value(variable_id)
         var_instance = Variable(time_stamp, var_value)
         self.vartable[variable_id].append(var_instance)
