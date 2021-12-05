@@ -50,11 +50,17 @@ def main_file(input_file_path):
         else:
 
             qry = file_read.readline()
+            if 'Test' in qry:
+                print(
+                    "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%{}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%".format(
+                        qry))
             if len(qry) == 0:
                 break
             if not ('(' and ')') in qry:
                 continue
             if '//' in qry:
+                if 'Test' in qry:
+                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%{}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%".format(qry))
                 qry = qry[:qry.index('//')]
                 # qry = qry.strip()
             if qry is not None and qry != '\n' and qry.strip() != "":
@@ -65,6 +71,7 @@ def main_file(input_file_path):
                 continue
 
         if fetched[0] == 'begin':
+            # print("==================================================Transaction T{} begins=======================================".format(int(fetched[1])))
             exe_result = trans_mgr.begin(int(fetched[1]))
         elif fetched[0] == 'beginRO':
             exe_result = trans_mgr.begin_read_only(int(fetched[1]))
@@ -80,6 +87,10 @@ def main_file(input_file_path):
             exe_result = trans_mgr.dump()
         elif fetched[0] == 'end':
             exe_result = trans_mgr.end(int(fetched[1]))
+            # print(
+            #     "==================================================Transaction T{} ends=======================================".format(
+            #         int(fetched[1])))
+
         pre_cmmd_waitlist_len = len(cmmd_waitlist)
         if exe_result == True:
             if in_waitlist == True:
@@ -97,12 +108,12 @@ def main_file(input_file_path):
 
         if deadlock_detection_result == -2:
             print("===================================================================================================")
-
+            # pass
 
 
 if __name__ == "__main__":
-    # main("testcases.txt")
-    main("testCases")
+    main("testcases.txt")
+    # main("testCases")
     # main("testCases/testcase2.txt")
     # t=Transaction_Manager()
     # print(t(1,2,102))

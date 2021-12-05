@@ -65,7 +65,7 @@ class Transaction_Manager:
 
     def read(self, trans_id, variable_id):
 
-        if (not self.alive_checker(trans_id)):
+        if not self.alive_checker(trans_id):
             return True
         curr_transaction = self.get_transaction(trans_id)
         if curr_transaction.aborted:
@@ -134,7 +134,7 @@ class Transaction_Manager:
 
     def write(self, trans_id, variable_id, variable_value):
 
-        if (not self.alive_checker(trans_id)):
+        if not self.alive_checker(trans_id):
             return True
         curr_transaction = self.get_transaction(trans_id)  ###########################
         if curr_transaction.aborted:
@@ -256,13 +256,13 @@ class Transaction_Manager:
         if len(self.trans_map.keys()) == 0:
             print("No transactions now")
             return -2
-        for i in self.trans_map.keys():
-            trans_id_temp = i
-            if trans_id_temp in trans_list:
+        for curr_id in self.trans_map.keys():
+
+            if curr_id in trans_list:
                 continue
             trans_list.clear()
-            trans_list.append(trans_id_temp)
-            curr_transaction = self.trans_map[trans_id_temp]
+            trans_list.append(curr_id)
+            curr_transaction = self.trans_map[curr_id]
             while curr_transaction.waiting_for_trans_id != -1:
                 if curr_transaction.waiting_for_trans_id in trans_list:
                     print("There is a deadlock.")
