@@ -41,11 +41,16 @@ class Transaction_Manager:
 
     def release_site_locks(self, trans_id, site_id):
         self.get_site(site_id).release_lock(trans_id)
-    def updated_site_variable_version(self,site_id, variable_id, version):
+
+    def updated_site_variable_version(self, site_id, variable_id, version):
         if variable_id in self.get_site(site_id).vartable.keys():
             self.get_site(site_id).vartable[variable_id].append(version)
         else:
             self.get_site(site_id).vartable[variable_id][version]
+
+    def get_site_just_recover(self, site_id):
+        return self.get_site(site_id).just_recovery
+
     def begin(self, trans_id):
         self.trans_init_checker(trans_id)
         curr_transaction = Transaction(self.time_stamp, False)
@@ -68,7 +73,7 @@ class Transaction_Manager:
         if curr_transaction.blocked:
             return False
         if curr_transaction.read_only:
-            return self.read_read_only(curr_transaction, variable_id)
+            return self.read_read_only(trans_id, variable_id)
         if variable_id in curr_transaction.cache.keys():
             variable_value = curr_transaction.cache[variable_id]
             print("X %s : %s" % (str(variable_id), str(variable_value)))
@@ -97,30 +102,35 @@ class Transaction_Manager:
                     return True
         return False
 
-    def read_read_only(self, curr_transaction, variable_id):
-
+    def read_read_only(self, trans_id, variable_id):
+        curr_transaction = self.get_transaction(trans_id)
         if not self.is_replicated_variable(variable_id):
             site_id = variable_id % Constant.NUMBER_OF_SITES + 1
             curr_site = self.get_site(site_id)
             if self.is_site_failed(site_id):
                 return False
             else:
-                variable_value = self.get_site_variable_value(variable_id)
-
+                variable_value = self.get_site_variable_value(site_id, variable_id)
+                # since xi is the only site that knows this non replicated variable
                 print("Read X %s : %s" % (str(variable_id), str(variable_value)))
                 return True
         else:
-            for i in range(1, Constant.NUMBER_OF_SITES + 1):
-                if self.is_site_failed(i):
+
+            for k in range(1, Constant.NUMBER_OF_SITES + 1):
+                if self.is_site_failed(k):
                     continue
-                variable_value = self.data_mgr.read_only_replicated_read(variable_id, curr_transaction.start_time, i)
-                if variable_value == -1:
+
+                if variable_id not in self.get_site(k).vartable.keys() or self.get_site(k).vartable[variable_id] == []:
                     continue
-                else:
+                latest = self.get_site(k).vartable[variable_id][-1]
+                just_recovered = self.get_site_just_recover(k)
+                last_commit_time = latest.version  ###########need to be fixed to latest.time_stamp
+                if (not just_recovered) and curr_transaction.start_time > last_commit_time > self.get_last_failure_time(
+                        k):
+                    variable_value = latest.value
                     print("Read X %s : %s" % (str(variable_id), str(variable_value)))
                     return True
         return False
-
 
     def write(self, trans_id, variable_id, variable_value):
 

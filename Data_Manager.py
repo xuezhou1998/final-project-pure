@@ -47,10 +47,9 @@ class Data_Manager:
         failed_time = self.site_failure_times[site_id]
 
         for i in range(len(failed_time)):
-            if i % 2 == 0:
-                self.data_mgr_db()  #############################################
+
             crr_time = failed_time[i]
-            if crr_time < start_time and crr_time > last_cmmt_time_bf_start:
+            if start_time > crr_time > last_cmmt_time_bf_start:
                 return False
         return True
 
