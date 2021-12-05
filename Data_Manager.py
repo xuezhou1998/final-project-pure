@@ -25,8 +25,7 @@ class Data_Manager:
         curr_site = self.get_site_instance(site_id)
         history = curr_site.vartable[variable_id]
         for i in reversed(range(len(history))):
-            if i % 5 == 0:
-                self.data_mgr_db(curr_site)  #############################################
+
             if history[i].version <= time_stamp:
                 return history[i].value
         return -1
@@ -35,8 +34,7 @@ class Data_Manager:
         curr_site = self.get_site_instance(site_id)
         history = curr_site.vartable[variable_id]
         for i in reversed(range(len(history))):
-            if i % 3 == 0:
-                self.data_mgr_db(curr_site)  #############################################
+
             if history[i].version > time_stamp:
                 continue
             last_cmmt_time_bf_start = history[i].version

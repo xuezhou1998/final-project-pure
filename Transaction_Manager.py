@@ -41,7 +41,11 @@ class Transaction_Manager:
 
     def release_site_locks(self, trans_id, site_id):
         self.get_site(site_id).release_lock(trans_id)
-
+    def updated_site_variable_version(self,site_id, variable_id, version):
+        if variable_id in self.get_site(site_id).vartable.keys():
+            self.get_site(site_id).vartable[variable_id].append(version)
+        else:
+            self.get_site(site_id).vartable[variable_id][version]
     def begin(self, trans_id):
         self.trans_init_checker(trans_id)
         curr_transaction = Transaction(self.time_stamp, False)
@@ -94,28 +98,29 @@ class Transaction_Manager:
         return False
 
     def read_read_only(self, curr_transaction, variable_id):
-        if self.is_replicated_variable(variable_id) == False:
-            site_id = variable_id % Constant.NUMBER_OF_SITES + 1
 
-            if self.is_site_failed(site_id) == True:
+        if not self.is_replicated_variable(variable_id):
+            site_id = variable_id % Constant.NUMBER_OF_SITES + 1
+            curr_site = self.get_site(site_id)
+            if self.is_site_failed(site_id):
                 return False
             else:
-                variable_value = self.data_mgr.read_only_non_replicated_read(variable_id, curr_transaction.start_time,
-                                                                             site_id)
-                print("X %s : %s" % (str(variable_id), str(variable_value)))
+                variable_value = self.get_site_variable_value(variable_id)
+
+                print("Read X %s : %s" % (str(variable_id), str(variable_value)))
                 return True
         else:
             for i in range(1, Constant.NUMBER_OF_SITES + 1):
-                if self.is_site_failed(i) == True:
+                if self.is_site_failed(i):
                     continue
-                curr_site = self.get_site(i)
                 variable_value = self.data_mgr.read_only_replicated_read(variable_id, curr_transaction.start_time, i)
                 if variable_value == -1:
                     continue
                 else:
-                    print("X %s : %s" % (str(variable_id), str(variable_value)))
+                    print("Read X %s : %s" % (str(variable_id), str(variable_value)))
                     return True
         return False
+
 
     def write(self, trans_id, variable_id, variable_value):
 
@@ -320,7 +325,7 @@ class Transaction_Manager:
         self.get_site(site_id).site_fail()
         self.set_last_failure_time(site_id, self.time_stamp)
         if site_id not in self.site_failure_hist.keys():
-            self.site_failure_hist[site_id]=[self.time_stamp]
+            self.site_failure_hist[site_id] = [self.time_stamp]
         else:
             self.site_failure_hist[site_id].append(self.time_stamp)
         self.abort_trans_multi(site_id)
