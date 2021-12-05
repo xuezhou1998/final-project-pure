@@ -1,5 +1,4 @@
 # import typing_extensions
-from Data_Manager import Data_Manager
 from Transaction import Transaction
 from Site import Site
 import Constant
@@ -8,7 +7,6 @@ import Constant
 class Transaction_Manager:
     def __init__(self) -> None:
         self.time_stamp = 0
-        self.data_mgr = Data_Manager()
         self.trans_map = {}  ##integer: transaction
         self.site_instance = {}
         self.site_failure_hist = {}
