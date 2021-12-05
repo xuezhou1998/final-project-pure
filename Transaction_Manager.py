@@ -101,6 +101,7 @@ class Transaction_Manager:
                     curr_site.add_write_lock(trans_id, variable_id, self.time_stamp)
                     curr_transaction.cache[variable_id] = variable_value
                     curr_transaction.sites_accessed.add(curr_site)
+
                     # curr_site.write(variable_id, variable_value, self.time_stamp)
                     ############ write to cache of trans ###############
         if not result:
