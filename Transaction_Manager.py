@@ -27,6 +27,8 @@ class Transaction_Manager:
     def set_last_failure_time(self, site_id, time_stamp):
         self.get_site(site_id).last_fail_time = time_stamp
 
+    def get_last_write_commit_time(self,site_id , variable_id):
+        return self.get_site(site_id).get_var_last_write_commited_time(variable_id)
     def is_site_failed(self, site_id):
         return self.get_site(site_id).fail
 
@@ -46,7 +48,7 @@ class Transaction_Manager:
         if variable_id in self.get_site(site_id).vartable.keys():
             self.get_site(site_id).vartable[variable_id].append(version)
         else:
-            self.get_site(site_id).vartable[variable_id][version]
+            self.get_site(site_id).vartable[variable_id]=[version]
 
     def get_site_just_recover(self, site_id):
         return self.get_site(site_id).just_recovery
@@ -93,7 +95,7 @@ class Transaction_Manager:
                 # first check the restriction of just recovered site
                 curr_site = self.get_site(i)
                 if self.is_replicated_variable(variable_id) and curr_site.just_recovery:
-                    if curr_site.get_var_last_commited_time(variable_id) < self.get_last_failure_time(i):
+                    if curr_site.get_var_last_write_commited_time(variable_id) < self.get_last_failure_time(i):
                         continue
                 if self.get_read_lock(trans_id, variable_id, i):
                     curr_transaction.sites_accessed.add(i)
@@ -124,8 +126,8 @@ class Transaction_Manager:
                     continue
                 latest = self.get_site(k).vartable[variable_id][-1]
                 just_recovered = self.get_site_just_recover(k)
-                last_commit_time = latest.version  ###########need to be fixed to latest.time_stamp
-                if (not just_recovered) and curr_transaction.start_time > last_commit_time > self.get_last_failure_time(
+                last_write_commit_time = self.get_last_write_commit_time(k, variable_id) ###########need to be fixed to latest.time_stamp
+                if (not just_recovered) and curr_transaction.start_time > last_write_commit_time > self.get_last_failure_time(
                         k):
                     variable_value = latest.value
                     print("Read X %s : %s" % (str(variable_id), str(variable_value)))
@@ -202,6 +204,7 @@ class Transaction_Manager:
             self.trans_map.pop(trans_id)
         else:
             print("Transaction T%d committed." % trans_id)
+
             for i in curr_transaction.cache.keys():
                 variable_id = i
                 variable_value = curr_transaction.cache[i]

@@ -11,7 +11,7 @@ class Site:
         self.recover_time = 0
         self.last_fail_time = 0
         self.fail = False
-
+        self.last_write_commit_time = {}
         self.vartable = dict()
 
         for i in range(1, self.arraynum + 1):
@@ -38,9 +38,12 @@ class Site:
             return True
         return self.site_id == variable_id % 10
 
-    def get_var_last_commited_time(self, variable_id):
-        size = len(self.vartable[variable_id])
-        return self.vartable[variable_id][size - 1].version
+    def get_var_last_write_commited_time(self, variable_id):
+        if variable_id in self.last_write_commit_time.keys():
+
+            return self.last_write_commit_time[variable_id]
+        else:
+            return -1
 
     def clear_wait_lock(self, transaction_id, var_id):
         if var_id in self.waiting_for_locktable.keys() and self.waiting_for_locktable[
@@ -143,6 +146,7 @@ class Site:
         self.vartable[var_id].append(v)
         ###############################
         self.just_recovery = False
+        self.last_write_commit_time[var_id] = time_stamp
         return 0
     def site_recover(self, time_stamp, last_fail_time):
         self.recover_time = time_stamp
