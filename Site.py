@@ -92,7 +92,7 @@ class Site:
 
     def can_get_read_lock(self, transaction_id, variable_id):
         self.site_db()  ######################################################################
-        if variable_id not in self.lock_table.keys() or len(self.lock_table[variable_id]) == 0:
+        if (variable_id not in self.lock_table.keys()) or len(self.lock_table[variable_id]) == 0:
             self.site_db()  ######################################################################
             return True
         else:
