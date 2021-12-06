@@ -1,0 +1,634 @@
+/usr/local/bin/python3.7 "/Users/xuezhouwen/My Drive/NYU Courses/Advanced Topics Database Systems, Section 001/final-project-pure/Main.py"
+file loaded
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 1.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['W', '1', '2', '102']
+instruction is waiting: ['W', '2', '1', '201']
+There is a deadlock.
+Transaction  T2 is aborted.
+1 1 2 0  xxxxx
+2 1 7 0  xxxxx
+2 1 7 0  xxxxx
+2 1 7 0  xxxxx
+2 1 7 0  xxxxx
+2 1 7 0  xxxxx
+2 1 7 0  xxxxx
+2 1 7 0  xxxxx
+2 1 7 0  xxxxx
+2 1 7 0  xxxxx
+2 1 7 0  xxxxx
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+site 1 - x2: 102
+site 2 - x1: 101, x2: 102
+site 3 - x2: 102
+site 4 - x2: 102
+site 5 - x2: 102
+site 6 - x2: 102
+site 7 - x2: 102
+site 8 - x2: 102
+site 9 - x2: 102
+site 10 - x2: 102
+
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Read X 2 : 102
+Read X 1 : 101
+1 1 13 0  xxxxx
+2 1 15 0  xxxxx
+2 1 15 0  xxxxx
+2 1 15 0  xxxxx
+2 1 15 0  xxxxx
+2 1 15 0  xxxxx
+2 1 15 0  xxxxx
+2 1 15 0  xxxxx
+2 1 15 0  xxxxx
+2 1 15 0  xxxxx
+2 1 15 0  xxxxx
+Transaction T1 committed.
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+site 1 - x2: 102
+site 2 - x1: 101, x2: 102
+site 3 - x2: 102
+site 4 - x2: 102
+site 5 - x2: 102
+site 6 - x2: 102
+site 7 - x2: 102
+site 8 - x2: 102
+site 9 - x2: 102
+site 10 - x2: 102
+
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 3 : 30
+Has made site 2 failed
+X 3 : 30
+8 2 24 0  xxxxx
+8 2 24 0  xxxxx
+8 2 24 0  xxxxx
+8 2 24 0  xxxxx
+8 2 24 0  xxxxx
+8 2 24 0  xxxxx
+8 2 24 0  xxxxx
+8 2 24 0  xxxxx
+8 2 24 0  xxxxx
+3 2 25 0  xxxxx
+Transaction T2 committed.
+Recover site 2 successful at time stamp 28
+3 1 22 0  xxxxx
+5 1 26 0  xxxxx
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 3.5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 3 : 30
+Has made site 2 failed
+Recover site 2 successful at time stamp 37
+Transaction T2 has been aborted.
+3 1 32 0  xxxxx
+4 1 36 0  xxxxx
+4 1 36 0  xxxxx
+4 1 36 0  xxxxx
+4 1 36 0  xxxxx
+4 1 36 0  xxxxx
+4 1 36 0  xxxxx
+4 1 36 0  xxxxx
+4 1 36 0  xxxxx
+4 1 36 0  xxxxx
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 3.7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 3 : 30
+Has made site 2 failed
+Recover site 2 successful at time stamp 46
+Transaction T2 has been aborted.
+3 1 42 0  xxxxx
+4 1 47 0  xxxxx
+4 1 47 44  xxxxx
+4 1 47 0  xxxxx
+4 1 47 0  xxxxx
+4 1 47 0  xxxxx
+4 1 47 0  xxxxx
+4 1 47 0  xxxxx
+4 1 47 0  xxxxx
+4 1 47 0  xxxxx
+4 1 47 0  xxxxx
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 1 : 101
+Has made site 2 failed
+X 3 : 30
+8 2 54 0  xxxxx
+8 2 54 0  xxxxx
+8 2 54 0  xxxxx
+8 2 54 0  xxxxx
+8 2 54 0  xxxxx
+8 2 54 0  xxxxx
+8 2 54 0  xxxxx
+8 2 54 0  xxxxx
+8 2 54 0  xxxxx
+3 2 55 0  xxxxx
+Transaction T2 committed.
+Recover site 2 successful at time stamp 58
+Transaction T1 has been aborted.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 2 failed
+X 3 : 30
+8 2 64 0  xxxxx
+8 2 64 0  xxxxx
+8 2 64 0  xxxxx
+8 2 64 0  xxxxx
+8 2 64 0  xxxxx
+8 2 64 0  xxxxx
+8 2 64 0  xxxxx
+8 2 64 0  xxxxx
+8 2 64 0  xxxxx
+3 2 65 0  xxxxx
+Transaction T2 committed.
+Recover site 2 successful at time stamp 68
+Transaction T1 has been aborted.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 6
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 3 failed
+Has made site 4 failed
+X 1 : 101
+1 1 74 63  xxxxx
+Transaction T1 committed.
+Recover site 4 successful at time stamp 77
+Recover site 3 successful at time stamp 78
+X 3 : 30
+8 2 75 0  xxxxx
+8 2 75 63  xxxxx
+8 2 75 0  xxxxx
+8 2 75 0  xxxxx
+8 2 75 0  xxxxx
+8 2 75 0  xxxxx
+8 2 75 0  xxxxx
+8 2 75 0  xxxxx
+3 2 79 73  xxxxx
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+site 1 - x2: 102, x4: 91, x8: 88
+site 2 - x1: 101, x2: 102, x4: 91, x8: 88
+site 3 - x2: 102, x4: 91, x8: 88
+site 4 - x2: 102, x4: 91, x8: 88
+site 5 - x2: 102, x4: 91, x8: 88
+site 6 - x2: 102, x4: 91, x5: 91, x8: 88
+site 7 - x2: 102, x4: 91, x8: 88
+site 8 - x2: 102, x4: 91, x8: 88
+site 9 - x2: 102, x4: 91, x8: 88
+site 10 - x2: 102, x4: 91, x8: 88
+
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Read X 1 : 101
+Read X 2 : 102
+3 1 86 73  xxxxx
+Transaction T1 committed.
+Read X 3 : 33
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Read X 1 : 101
+Read X 2 : 102
+3 1 94 73  xxxxx
+Transaction T1 committed.
+Read X 3 : 33
+Read X 3 : 33
+Transaction T2 committed.
+Transaction T3 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 9
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '4']
+4 2 105 0  xxxxx
+4 2 105 63  xxxxx
+4 2 105 72  xxxxx
+4 2 105 73  xxxxx
+4 2 105 0  xxxxx
+4 2 105 0  xxxxx
+4 2 105 0  xxxxx
+4 2 105 0  xxxxx
+4 2 105 0  xxxxx
+4 2 105 0  xxxxx
+Transaction T2 committed.
+X 4 : 44
+2 3 104 0  xxxxx
+2 3 104 63  xxxxx
+2 3 104 72  xxxxx
+2 3 104 73  xxxxx
+2 3 104 0  xxxxx
+2 3 104 0  xxxxx
+2 3 104 0  xxxxx
+2 3 104 0  xxxxx
+2 3 104 0  xxxxx
+2 3 104 0  xxxxx
+4 3 109 0  xxxxx
+Transaction T3 committed.
+X 2 : 22
+2 1 111 0  xxxxx
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 10
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '4']
+4 2 117 0  xxxxx
+4 2 117 63  xxxxx
+4 2 117 72  xxxxx
+4 2 117 73  xxxxx
+4 2 117 0  xxxxx
+4 2 117 0  xxxxx
+4 2 117 0  xxxxx
+4 2 117 0  xxxxx
+4 2 117 0  xxxxx
+4 2 117 0  xxxxx
+Transaction T2 committed.
+X 4 : 44
+2 3 116 0  xxxxx
+2 3 116 63  xxxxx
+2 3 116 72  xxxxx
+2 3 116 73  xxxxx
+2 3 116 0  xxxxx
+2 3 116 0  xxxxx
+2 3 116 0  xxxxx
+2 3 116 0  xxxxx
+2 3 116 0  xxxxx
+2 3 116 0  xxxxx
+4 3 121 0  xxxxx
+Transaction T3 committed.
+X 2 : 22
+2 1 123 0  xxxxx
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 11
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 2 : 22
+X 2 : 22
+instruction is waiting: ['W', '2', '2', '10']
+2 1 127 0  xxxxx
+Transaction T1 committed.
+2 2 128 0  xxxxx
+2 2 128 0  xxxxx
+2 2 128 63  xxxxx
+2 2 128 72  xxxxx
+2 2 128 73  xxxxx
+2 2 128 0  xxxxx
+2 2 128 0  xxxxx
+2 2 128 0  xxxxx
+2 2 128 0  xxxxx
+2 2 128 0  xxxxx
+2 2 128 0  xxxxx
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 12
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 2 : 10
+X 2 : 10
+2 1 136 0  xxxxx
+Transaction T1 committed.
+2 2 137 0  xxxxx
+2 2 137 0  xxxxx
+2 2 137 63  xxxxx
+2 2 137 72  xxxxx
+2 2 137 73  xxxxx
+2 2 137 0  xxxxx
+2 2 137 0  xxxxx
+2 2 137 0  xxxxx
+2 2 137 0  xxxxx
+2 2 137 0  xxxxx
+2 2 137 0  xxxxx
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 13
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['W', '2', '2', '10']
+instruction is waiting: ['W', '1', '2', '10']
+2 3 144 0  xxxxx
+2 3 144 63  xxxxx
+2 3 144 72  xxxxx
+2 3 144 73  xxxxx
+2 3 144 0  xxxxx
+2 3 144 0  xxxxx
+2 3 144 0  xxxxx
+2 3 144 0  xxxxx
+2 3 144 0  xxxxx
+2 3 144 0  xxxxx
+Transaction T3 committed.
+2 2 151 0  xxxxx
+2 2 151 63  xxxxx
+2 2 151 72  xxxxx
+2 2 151 73  xxxxx
+2 2 151 0  xxxxx
+2 2 151 0  xxxxx
+2 2 151 0  xxxxx
+2 2 151 0  xxxxx
+2 2 151 0  xxxxx
+2 2 151 0  xxxxx
+Transaction T2 committed.
+2 1 154 0  xxxxx
+2 1 154 63  xxxxx
+2 1 154 72  xxxxx
+2 1 154 73  xxxxx
+2 1 154 0  xxxxx
+2 1 154 0  xxxxx
+2 1 154 0  xxxxx
+2 1 154 0  xxxxx
+2 1 154 0  xxxxx
+2 1 154 0  xxxxx
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 14
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['W', '1', '2', '10']
+instruction is waiting: ['W', '2', '2', '10']
+2 3 159 0  xxxxx
+2 3 159 63  xxxxx
+2 3 159 72  xxxxx
+2 3 159 73  xxxxx
+2 3 159 0  xxxxx
+2 3 159 0  xxxxx
+2 3 159 0  xxxxx
+2 3 159 0  xxxxx
+2 3 159 0  xxxxx
+2 3 159 0  xxxxx
+Transaction T3 committed.
+2 1 166 0  xxxxx
+2 1 166 63  xxxxx
+2 1 166 72  xxxxx
+2 1 166 73  xxxxx
+2 1 166 0  xxxxx
+2 1 166 0  xxxxx
+2 1 166 0  xxxxx
+2 1 166 0  xxxxx
+2 1 166 0  xxxxx
+2 1 166 0  xxxxx
+Transaction T1 committed.
+2 2 169 0  xxxxx
+2 2 169 63  xxxxx
+2 2 169 72  xxxxx
+2 2 169 73  xxxxx
+2 2 169 0  xxxxx
+2 2 169 0  xxxxx
+2 2 169 0  xxxxx
+2 2 169 0  xxxxx
+2 2 169 0  xxxxx
+2 2 169 0  xxxxx
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 15
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 2 failed
+Recover site 2 successful at time stamp 179
+instruction is waiting: ['W', '3', '4', '55']
+instruction is waiting: ['W', '4', '4', '66']
+instruction is waiting: ['W', '5', '4', '77']
+Transaction T1 has been aborted.
+4 2 178 0  xxxxx
+4 2 178 72  xxxxx
+4 2 178 73  xxxxx
+4 2 178 0  xxxxx
+4 2 178 0  xxxxx
+4 2 178 0  xxxxx
+4 2 178 0  xxxxx
+4 2 178 0  xxxxx
+4 2 178 0  xxxxx
+Transaction T2 committed.
+4 3 194 0  xxxxx
+4 3 194 177  xxxxx
+4 3 194 72  xxxxx
+4 3 194 73  xxxxx
+4 3 194 0  xxxxx
+4 3 194 0  xxxxx
+4 3 194 0  xxxxx
+4 3 194 0  xxxxx
+4 3 194 0  xxxxx
+4 3 194 0  xxxxx
+Transaction T3 committed.
+4 4 198 0  xxxxx
+4 4 198 177  xxxxx
+4 4 198 72  xxxxx
+4 4 198 73  xxxxx
+4 4 198 0  xxxxx
+4 4 198 0  xxxxx
+4 4 198 0  xxxxx
+4 4 198 0  xxxxx
+4 4 198 0  xxxxx
+4 4 198 0  xxxxx
+Transaction T4 committed.
+4 5 201 0  xxxxx
+4 5 201 177  xxxxx
+4 5 201 72  xxxxx
+4 5 201 73  xxxxx
+4 5 201 0  xxxxx
+4 5 201 0  xxxxx
+4 5 201 0  xxxxx
+4 5 201 0  xxxxx
+4 5 201 0  xxxxx
+4 5 201 0  xxxxx
+Transaction T5 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 16
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '4']
+4 2 207 0  xxxxx
+4 2 207 177  xxxxx
+4 2 207 72  xxxxx
+4 2 207 73  xxxxx
+4 2 207 0  xxxxx
+4 2 207 0  xxxxx
+4 2 207 0  xxxxx
+4 2 207 0  xxxxx
+4 2 207 0  xxxxx
+4 2 207 0  xxxxx
+Transaction T2 committed.
+X 4 : 44
+2 3 206 0  xxxxx
+2 3 206 177  xxxxx
+2 3 206 72  xxxxx
+2 3 206 73  xxxxx
+2 3 206 0  xxxxx
+2 3 206 0  xxxxx
+2 3 206 0  xxxxx
+2 3 206 0  xxxxx
+2 3 206 0  xxxxx
+2 3 206 0  xxxxx
+4 3 211 0  xxxxx
+Transaction T3 committed.
+X 2 : 22
+2 1 213 0  xxxxx
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 17
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '3']
+3 2 219 73  xxxxx
+Transaction T2 committed.
+X 3 : 44
+Has made site 4 failed
+Transaction T3 has been aborted.
+X 2 : 22
+2 1 226 0  xxxxx
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 18
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '3']
+X 4 : 44
+X 5 : 91
+X 1 : 101
+X 2 : 22
+instruction is waiting: ['W', '2', '3', '20']
+4 4 235 0  xxxxx
+5 4 251 0  xxxxx
+Transaction T4 committed.
+4 3 248 0  xxxxx
+4 3 248 177  xxxxx
+4 3 248 72  xxxxx
+4 3 248 0  xxxxx
+4 3 248 0  xxxxx
+4 3 248 0  xxxxx
+4 3 248 0  xxxxx
+4 3 248 0  xxxxx
+4 3 248 0  xxxxx
+Transaction T3 committed.
+2 2 241 0  xxxxx
+Transaction T2 committed.
+1 1 239 177  xxxxx
+2 1 243 0  xxxxx
+2 1 243 177  xxxxx
+2 1 243 72  xxxxx
+2 1 243 0  xxxxx
+2 1 243 0  xxxxx
+2 1 243 0  xxxxx
+2 1 243 0  xxxxx
+2 1 243 0  xxxxx
+2 1 243 0  xxxxx
+Transaction T1 committed.
+5 5 237 0  xxxxx
+1 5 254 177  xxxxx
+Transaction T5 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 19
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '3']
+Has made site 4 failed
+Recover site 4 successful at time stamp 276
+X 3 : 44
+X 4 : 30
+X 5 : 40
+X 6 : 60
+X 2 : 10
+5 5 279 0  xxxxx
+1 5 285 177  xxxxx
+Transaction T5 committed.
+4 4 278 0  xxxxx
+5 4 287 0  xxxxx
+Transaction T4 committed.
+3 3 277 274  xxxxx
+4 3 284 0  xxxxx
+4 3 284 177  xxxxx
+4 3 284 72  xxxxx
+4 3 284 274  xxxxx
+4 3 284 0  xxxxx
+4 3 284 0  xxxxx
+4 3 284 0  xxxxx
+4 3 284 0  xxxxx
+4 3 284 0  xxxxx
+4 3 284 0  xxxxx
+Transaction T3 committed.
+2 2 281 0  xxxxx
+3 2 283 274  xxxxx
+Transaction T2 committed.
+6 1 280 0  xxxxx
+2 1 282 0  xxxxx
+2 1 282 177  xxxxx
+2 1 282 72  xxxxx
+2 1 282 274  xxxxx
+2 1 282 0  xxxxx
+2 1 282 0  xxxxx
+2 1 282 0  xxxxx
+2 1 282 0  xxxxx
+2 1 282 0  xxxxx
+2 1 282 0  xxxxx
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 20
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 1 failed
+Transaction T1 has been aborted.
+2 3 298 177  xxxxx
+2 3 298 72  xxxxx
+2 3 298 274  xxxxx
+2 3 298 0  xxxxx
+2 3 298 0  xxxxx
+2 3 298 0  xxxxx
+2 3 298 0  xxxxx
+2 3 298 0  xxxxx
+2 3 298 0  xxxxx
+Transaction T3 committed.
+Recover site 1 successful at time stamp 300
+Has made site 2 failed
+Has made site 3 failed
+Has made site 4 failed
+Has made site 5 failed
+Has made site 6 failed
+Has made site 7 failed
+Has made site 8 failed
+Has made site 9 failed
+Has made site 10 failed
+instruction is waiting: ['R', '2', '2']
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 21
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Transaction initialization successful.
+instruction is waiting: ['R', '2', '2']
+instruction is waiting: ['W', '1', '2', '202']
+instruction is waiting: ['W', '2', '2', '302']
+instruction is waiting: ['end', '1']
+site 1 - x2: 10, x4: 30, x8: 88
+site 2 - x1: 50, x2: 100, x4: 30, x8: 88
+site 3 - x2: 100, x4: 30, x8: 88
+site 4 - x2: 100, x3: 20, x4: 30, x8: 88
+site 5 - x2: 100, x4: 30, x8: 88
+site 6 - x2: 100, x4: 30, x5: 40, x8: 88
+site 7 - x2: 100, x4: 30, x8: 88
+site 8 - x2: 100, x4: 30, x8: 88
+site 9 - x2: 100, x4: 30, x8: 88
+site 10 - x2: 100, x4: 30, x8: 88
+
+
+Process finished with exit code 0

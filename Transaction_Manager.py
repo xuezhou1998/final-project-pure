@@ -10,8 +10,16 @@ class Transaction_Manager:
         self.trans_map = {}  ##integer: transaction
         self.site_instance = {}
         self.site_failure_hist = {}
+
         for i in range(1, Constant.NUMBER_OF_SITES + 1):
             self.site_instance[i] = Site(i)
+
+    def update_sites_accessed(self, trans_id, variable_id, site_id):
+        self.get_transaction(trans_id).sites_accessed.add(site_id)
+        if variable_id not in self.get_transaction(trans_id).sites_accessed_table.keys():
+            self.get_transaction(trans_id).sites_accessed_table[variable_id] = [self.time_stamp, site_id]
+        else:
+            self.get_transaction(trans_id).sites_accessed_table[variable_id].append(site_id)
 
     def get_site(self, site_id):
         return self.site_instance[site_id]
@@ -25,8 +33,9 @@ class Transaction_Manager:
     def set_last_failure_time(self, site_id, time_stamp):
         self.get_site(site_id).last_fail_time = time_stamp
 
-    def get_last_write_commit_time(self,site_id , variable_id):
+    def get_last_write_commit_time(self, site_id, variable_id):
         return self.get_site(site_id).get_var_last_write_commited_time(variable_id)
+
     def is_site_failed(self, site_id):
         return self.get_site(site_id).fail
 
@@ -46,7 +55,7 @@ class Transaction_Manager:
         if variable_id in self.get_site(site_id).vartable.keys():
             self.get_site(site_id).vartable[variable_id].append(version)
         else:
-            self.get_site(site_id).vartable[variable_id]=[version]
+            self.get_site(site_id).vartable[variable_id] = [version]
 
     def get_site_just_recover(self, site_id):
         return self.get_site(site_id).just_recovery
@@ -82,7 +91,8 @@ class Transaction_Manager:
             site_id = variable_id % Constant.NUMBER_OF_SITES + 1
             if self.get_read_lock(trans_id, variable_id, site_id):
                 # if site_id not in curr_transaction.sites_accessed:
-                curr_transaction.sites_accessed.add(site_id)
+                # curr_transaction.sites_accessed.add(site_id)
+                self.update_sites_accessed(trans_id, variable_id, site_id)
                 variable_value = self.get_site_variable_value(site_id, variable_id)
                 print("X %s : %s" % (str(variable_id), str(variable_value)))
                 return True
@@ -96,7 +106,8 @@ class Transaction_Manager:
                     if curr_site.get_var_last_write_commited_time(variable_id) < self.get_last_failure_time(i):
                         continue
                 if self.get_read_lock(trans_id, variable_id, i):
-                    curr_transaction.sites_accessed.add(i)
+                    # curr_transaction.sites_accessed.add(i)
+                    self.update_sites_accessed(trans_id, variable_id, i)
                     variable_value = self.get_site_variable_value(i, variable_id)
                     print("X %s : %s" % (str(variable_id), str(variable_value)))
                     return True
@@ -124,8 +135,10 @@ class Transaction_Manager:
                     continue
                 latest = self.get_site(k).vartable[variable_id][-1]
                 just_recovered = self.get_site_just_recover(k)
-                last_write_commit_time = self.get_last_write_commit_time(k, variable_id) ###########need to be fixed to latest.time_stamp
-                if (not just_recovered) and curr_transaction.start_time > last_write_commit_time > self.get_last_failure_time(
+                last_write_commit_time = self.get_last_write_commit_time(k,
+                                                                         variable_id)  ###########need to be fixed to latest.time_stamp
+                if (
+                not just_recovered) and curr_transaction.start_time > last_write_commit_time > self.get_last_failure_time(
                         k):
                     variable_value = latest.value
                     print("Read X %s : %s" % (str(variable_id), str(variable_value)))
@@ -150,7 +163,8 @@ class Transaction_Manager:
             if curr_site.can_get_write_lock(trans_id, variable_id):
                 curr_site.add_write_lock(trans_id, variable_id, self.time_stamp)
                 curr_site.clear_wait_lock(trans_id, variable_id)
-                curr_transaction.sites_accessed.add(site_id)
+                # curr_transaction.sites_accessed.add(site_id)
+                self.update_sites_accessed(trans_id, variable_id, site_id)
                 curr_transaction.cache[variable_id] = variable_value
                 curr_transaction.sites[variable_id] = [site_id]
                 return True
@@ -183,7 +197,8 @@ class Transaction_Manager:
                 for id_item in id_list:
                     curr_site = self.get_site(id_item)
                     curr_site.add_write_lock(trans_id, variable_id, self.time_stamp)
-                    curr_transaction.sites_accessed.add(id_item)
+                    # curr_transaction.sites_accessed.add(id_item)
+                    self.update_sites_accessed(trans_id, variable_id, id_item)
                     curr_site.clear_wait_lock(trans_id, variable_id)
                 curr_transaction.cache[variable_id] = variable_value
                 curr_transaction.sites[variable_id] = id_list
@@ -198,21 +213,43 @@ class Transaction_Manager:
         if curr_transaction.blocked:
             return False
         if curr_transaction.aborted:
-            print("Transaction T%d has been aborted." % trans_id)
+            print("Transaction T%d has been aborted. in end" % trans_id)
+            self.release_locks(trans_id, curr_transaction.sites_accessed)##################################
+            # print(curr_transaction.sites_accessed,"after in end")
+            self.unblock_trans(trans_id)#############################################
             self.trans_map.pop(trans_id)
         else:
-            print("Transaction T%d committed." % trans_id)
 
-            for i in curr_transaction.cache.keys():
+            # for i in curr_transaction.cache.keys():
+            for i in curr_transaction.sites_accessed_table.keys():
                 variable_id = i
-                variable_value = curr_transaction.cache[i]
-                site_list = curr_transaction.sites[variable_id]
-                for site_id_item in site_list:
-                    self.write_site(variable_id, variable_value, site_id_item)
-            for accessed_site_item in list(curr_transaction.sites_accessed):
-                self.release_site_locks(trans_id, accessed_site_item)
+                if not curr_transaction.read_only:
+                    access_time_stamp = curr_transaction.sites_accessed_table[variable_id][0]
+                    accessed_sites_list = curr_transaction.sites_accessed_table[variable_id][1:]
+                    for site_id_item in accessed_sites_list:
+                        # print(variable_id ,trans_id, access_time_stamp, self.get_last_failure_time(site_id_item), " xxxxx")
+                        if not access_time_stamp > self.get_last_failure_time(site_id_item):
+                            print("Transaction T%d has been aborted due to failure after access time" % trans_id)
+                            self.abort_trans(trans_id)
+                            self.unblock_trans(trans_id)
+                            self.release_locks(trans_id, curr_transaction.sites_accessed)
+                            self.trans_map.pop(trans_id)
+                            return False
+                if i in curr_transaction.cache.keys():
+                    variable_value = curr_transaction.cache[i]
+                    # operation_type = curr_transaction.cache[i]
+
+                    site_list = curr_transaction.sites[variable_id]
+                    # site_list = list(curr_transaction.sites_accessed)
+                    for site_id_item in site_list:
+                        # if operation_type == "W":
+                        self.write_site(variable_id, variable_value, site_id_item)
+            # for accessed_site_item in list(curr_transaction.sites_accessed):
+            #     self.release_site_locks(trans_id, accessed_site_item)
+            self.release_locks(trans_id, curr_transaction.sites_accessed)
             self.unblock_trans(trans_id)
             self.trans_map.pop(trans_id)
+            print("Transaction T%d committed." % trans_id)
         return True
 
     def dump(self):
@@ -267,9 +304,10 @@ class Transaction_Manager:
                 if curr_transaction.waiting_for_trans_id in trans_list:
                     print("There is a deadlock.")
                     youngest_id = self.find_yongest(trans_list)
-                    print("Transaction  T{} is aborted.".format(youngest_id))
+                    print("Transaction  T{} is aborted. inside deadlock detection".format(youngest_id))
                     self.abort_trans(youngest_id)
                     self.trans_map.pop(youngest_id)
+
                     return -1
                 trans_list.append(curr_transaction.waiting_for_trans_id)
                 curr_transaction = self.trans_map[curr_transaction.waiting_for_trans_id]
@@ -291,6 +329,7 @@ class Transaction_Manager:
             curr_transaction = self.trans_map[i]
             if site_id in curr_transaction.sites_accessed:
                 self.abort_trans(i)
+            # self.abort_trans(i)
         return 0
 
     def abort_trans(self, trans_id):
@@ -298,6 +337,7 @@ class Transaction_Manager:
         curr_transaction.aborted = True
         self.release_locks(trans_id, curr_transaction.sites_accessed)
         self.unblock_trans(trans_id)
+        # self.trans_map.pop(trans_id)############added
         return 0
 
     def release_locks(self, trans_id, sites_accessed_set):

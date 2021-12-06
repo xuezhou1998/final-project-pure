@@ -1,0 +1,293 @@
+/usr/local/bin/python3.7 "/Users/xuezhouwen/My Drive/NYU Courses/Advanced Topics Database Systems, Section 001/final-project-pure/Main.py"
+file loaded
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 1.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['W', '1', '2', '102']
+instruction is waiting: ['W', '2', '1', '201']
+There is a deadlock.
+Transaction  T2 is aborted.
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+site 1 - x2: 102
+site 2 - x1: 101, x2: 102
+site 3 - x2: 102
+site 4 - x2: 102
+site 5 - x2: 102
+site 6 - x2: 102
+site 7 - x2: 102
+site 8 - x2: 102
+site 9 - x2: 102
+site 10 - x2: 102
+
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Read X 2 : 102
+Read X 1 : 101
+Transaction T1 committed.
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+site 1 - x2: 102
+site 2 - x1: 101, x2: 102
+site 3 - x2: 102
+site 4 - x2: 102
+site 5 - x2: 102
+site 6 - x2: 102
+site 7 - x2: 102
+site 8 - x2: 102
+site 9 - x2: 102
+site 10 - x2: 102
+
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 3 : 30
+Has made site 2 failed
+X 3 : 30
+Transaction T2 committed.
+Recover site 2 successful at time stamp 28
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 3.5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 3 : 30
+Has made site 2 failed
+Recover site 2 successful at time stamp 37
+Transaction T2 has been aborted.
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 3.7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 3 : 30
+Has made site 2 failed
+Recover site 2 successful at time stamp 46
+Transaction T2 has been aborted.
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 1 : 101
+Has made site 2 failed
+X 3 : 30
+Transaction T2 committed.
+Recover site 2 successful at time stamp 58
+Transaction T1 has been aborted.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 2 failed
+X 3 : 30
+Transaction T2 committed.
+Recover site 2 successful at time stamp 68
+Transaction T1 has been aborted.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 6
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 3 failed
+Has made site 4 failed
+X 1 : 101
+Transaction T1 committed.
+Recover site 4 successful at time stamp 77
+Recover site 3 successful at time stamp 78
+X 3 : 30
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+site 1 - x2: 102, x4: 91, x8: 88
+site 2 - x1: 101, x2: 102, x4: 91, x8: 88
+site 3 - x2: 102, x4: 91, x8: 88
+site 4 - x2: 102, x4: 91, x8: 88
+site 5 - x2: 102, x4: 91, x8: 88
+site 6 - x2: 102, x4: 91, x5: 91, x8: 88
+site 7 - x2: 102, x4: 91, x8: 88
+site 8 - x2: 102, x4: 91, x8: 88
+site 9 - x2: 102, x4: 91, x8: 88
+site 10 - x2: 102, x4: 91, x8: 88
+
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Read X 1 : 101
+Read X 2 : 102
+Transaction T1 committed.
+Read X 3 : 33
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Read X 1 : 101
+Read X 2 : 102
+Transaction T1 committed.
+Read X 3 : 33
+Read X 3 : 33
+Transaction T2 committed.
+Transaction T3 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 9
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '4']
+Transaction T2 committed.
+X 4 : 44
+Transaction T3 committed.
+X 2 : 22
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 10
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '4']
+Transaction T2 committed.
+X 4 : 44
+Transaction T3 committed.
+X 2 : 22
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 11
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 2 : 22
+X 2 : 22
+instruction is waiting: ['W', '2', '2', '10']
+Transaction T1 committed.
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 12
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X 2 : 10
+X 2 : 10
+Transaction T1 committed.
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 13
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['W', '2', '2', '10']
+instruction is waiting: ['W', '1', '2', '10']
+Transaction T3 committed.
+Transaction T2 committed.
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 14
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['W', '1', '2', '10']
+instruction is waiting: ['W', '2', '2', '10']
+Transaction T3 committed.
+Transaction T1 committed.
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 15
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 2 failed
+Recover site 2 successful at time stamp 179
+instruction is waiting: ['W', '3', '4', '55']
+instruction is waiting: ['W', '4', '4', '66']
+instruction is waiting: ['W', '5', '4', '77']
+Transaction T1 has been aborted.
+Transaction T2 committed.
+Transaction T3 committed.
+Transaction T4 committed.
+Transaction T5 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 16
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '4']
+Transaction T2 committed.
+X 4 : 44
+Transaction T3 committed.
+X 2 : 22
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 17
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '3']
+Transaction T2 committed.
+X 3 : 44
+Has made site 4 failed
+Transaction T3 has been aborted.
+X 2 : 22
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 18
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '3']
+X 4 : 44
+X 5 : 91
+X 1 : 101
+X 2 : 22
+instruction is waiting: ['W', '2', '3', '20']
+Transaction T4 committed.
+Transaction T3 committed.
+Transaction T2 committed.
+Transaction T1 committed.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 19
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Transaction initialization successful.
+instruction is waiting: ['R', '3', '3']
+Has made site 4 failed
+Recover site 4 successful at time stamp 275
+X 3 : 44
+X 4 : 30
+X 5 : 40
+X 6 : 60
+X 2 : 10
+Transaction T5 committed.
+Transaction T4 committed.
+Transaction T3 committed.
+Transaction T2 committed.
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 20
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 1 failed
+Transaction T1 has been aborted.
+Transaction T3 committed.
+Recover site 1 successful at time stamp 299
+Has made site 2 failed
+Has made site 3 failed
+Has made site 4 failed
+Has made site 5 failed
+Has made site 6 failed
+Has made site 7 failed
+Has made site 8 failed
+Has made site 9 failed
+Has made site 10 failed
+instruction is waiting: ['R', '2', '2']
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 21
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Transaction initialization successful.
+instruction is waiting: ['R', '2', '2']
+instruction is waiting: ['W', '1', '2', '202']
+instruction is waiting: ['W', '2', '2', '302']
+instruction is waiting: ['end', '1']
+site 1 - x2: 10, x4: 30, x8: 88
+site 2 - x1: 50, x2: 100, x4: 30, x8: 88
+site 3 - x2: 100, x4: 30, x8: 88
+site 4 - x2: 100, x3: 20, x4: 30, x8: 88
+site 5 - x2: 100, x4: 30, x8: 88
+site 6 - x2: 100, x4: 30, x5: 40, x8: 88
+site 7 - x2: 100, x4: 30, x8: 88
+site 8 - x2: 100, x4: 30, x8: 88
+site 9 - x2: 100, x4: 30, x8: 88
+site 10 - x2: 100, x4: 30, x8: 88
+
+
+Process finished with exit code 0
