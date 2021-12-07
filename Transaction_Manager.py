@@ -222,14 +222,14 @@ class Transaction_Manager:
                 return True
 
     def block_trans(self, trans_id):
-        curr_transaction = self.trans_map[trans_id]
+        curr_transaction = self.get_transaction(trans_id)
         curr_transaction.blocked = True
 
     def end(self, trans_id):
         if trans_id not in self.trans_map.keys():
             print("Transaction T{} has already been aborted ".format(trans_id))
             return True
-        curr_transaction = self.trans_map[trans_id]
+        curr_transaction = self.get_transaction(trans_id)
         if curr_transaction.blocked:
             return False
         if curr_transaction.aborted:
@@ -281,8 +281,8 @@ class Transaction_Manager:
             table_keys = list(sorted(curr_site.vartable.keys()))
             for table_idx in range(len(table_keys)):
                 variable_list = curr_site.vartable[table_keys[table_idx]]
-                if variable_list[-1].get_version() == -1:
-                    continue
+                # if variable_list[-1].get_version() == -1:
+                #     continue
 
                 my_string += str(
                     "x{}: {}, ".format(str(table_keys[table_idx]), str(variable_list[-1].get_value())))
@@ -302,7 +302,7 @@ class Transaction_Manager:
             curr_site.add_read_lock(trans_id, variable_id, self.time_stamp)
             return True
         else:
-            curr_transaction = self.trans_map[trans_id]
+            curr_transaction = self.get_transaction(trans_id)
             wait_id = curr_site.get_waiting_id(variable_id, trans_id)
             curr_transaction.waiting_for_trans_id = wait_id
             curr_transaction.blocked = True
@@ -320,7 +320,7 @@ class Transaction_Manager:
                 continue
             trans_list.clear()
             trans_list.append(curr_id)
-            curr_transaction = self.trans_map[curr_id]
+            curr_transaction = self.get_transaction(curr_id)
             while curr_transaction.waiting_for_trans_id != -1:
                 if curr_transaction.waiting_for_trans_id in trans_list:
                     print("There is a deadlock.")
@@ -331,7 +331,7 @@ class Transaction_Manager:
 
                     return -1
                 trans_list.append(curr_transaction.waiting_for_trans_id)
-                curr_transaction = self.trans_map[curr_transaction.waiting_for_trans_id]
+                curr_transaction = self.get_transaction(curr_transaction.waiting_for_trans_id)
                 # print("In while loop inside transaction manager, dead lock detection function")
         return 0
 
@@ -339,7 +339,7 @@ class Transaction_Manager:
         youngest_id = -1
         youngest_time = -1
         for i in trans_id_list:
-            curr_transaction = self.trans_map[i]
+            curr_transaction = self.get_transaction(i)
             if curr_transaction.start_time > youngest_time:
                 youngest_id = i
                 youngest_time = curr_transaction.start_time
@@ -347,14 +347,14 @@ class Transaction_Manager:
 
     def abort_trans_multi(self, site_id):
         for i in self.trans_map.keys():
-            curr_transaction = self.trans_map[i]
+            curr_transaction = self.get_transaction(i)
             if site_id in curr_transaction.sites_accessed:
                 self.abort_trans(i)
             # self.abort_trans(i)
         return 0
 
     def abort_trans(self, trans_id):
-        curr_transaction = self.trans_map[trans_id]
+        curr_transaction = self.get_transaction(trans_id)
         curr_transaction.aborted = True
         self.release_locks(trans_id, curr_transaction.sites_accessed)
         self.unblock_trans(trans_id)
