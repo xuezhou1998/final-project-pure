@@ -63,19 +63,19 @@ class Site:
             self.lock_table[variable_id].append(lock_1)
             return 0
 
-        if self.lock_table[variable_id][0].type_of_lock == 'W' and self.lock_table[variable_id][
+        if self.lock_table[variable_id][-1].type_of_lock == 'W' and self.lock_table[variable_id][
             0].transaction_id == transaction_id:
             return 1
         lock_2 = Lock('W', time_stamp, transaction_id)
-        self.lock_table[variable_id].insert(0, lock_2)
+        self.lock_table[variable_id].append(lock_2)
         return 2
 
     def can_get_write_lock(self, transaction_id, variable_id):
         if variable_id not in self.lock_table.keys() or len(self.lock_table[variable_id]) == 0:
             return True
         else:
-            if self.lock_table[variable_id][0].type_of_lock == 'W':
-                if self.lock_table[variable_id][0].transaction_id != transaction_id:
+            if self.lock_table[variable_id][-1].type_of_lock == 'W':
+                if self.lock_table[variable_id][-1].transaction_id != transaction_id:
                     return False
                 return True
             else:
@@ -96,7 +96,7 @@ class Site:
             self.site_db()  ######################################################################
             return True
         else:
-            if self.lock_table[variable_id][0].type_of_lock == 'W' and self.lock_table[variable_id][
+            if self.lock_table[variable_id][-1].type_of_lock == 'W' and self.lock_table[variable_id][
                 0].transaction_id != transaction_id:
                 return False
             return True
@@ -116,10 +116,10 @@ class Site:
         if variable_id not in self.lock_table.keys() or len(self.lock_table[variable_id]) == 0:
             self.lock_table[variable_id] = list()
             lock_1 = Lock('R', time_stamp, transaction_id)
-            self.lock_table[variable_id].insert(0, lock_1)
+            self.lock_table[variable_id].append(lock_1)
             return -1
 
-        if self.lock_table[variable_id][0].type_of_lock == 'W' and self.lock_table[variable_id][
+        if self.lock_table[variable_id][-1].type_of_lock == 'W' and self.lock_table[variable_id][
             0].transaction_id == transaction_id:
             return 0
 
@@ -130,7 +130,7 @@ class Site:
                 return 1
 
         lock_3 = Lock('R', time_stamp, transaction_id)
-        self.lock_table[variable_id].insert(0, lock_3)
+        self.lock_table[variable_id].append(lock_3)
 
         return 2
 
