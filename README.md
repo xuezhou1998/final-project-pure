@@ -1,7 +1,14 @@
 # Final-Project
-test 6
-some doubts in test 8 and test 7
-test 18 did not display the aborted youngest T5
 
-test 19 wrong
-test 21 wrong
+Xuezhou Wen
+xw2447@nyu.edu
+
+Lianghao Shu
+ls5501@nyu.edu
+
+
+To run the Project
+
+1. open Main.py, input your testfile path or directory.
+2. run python3 Main.py in terminal
+
