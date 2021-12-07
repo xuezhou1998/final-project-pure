@@ -8,10 +8,10 @@ def main(input_path):
 
     :rtype: None
     """
-    # checks if path is a file
+
     is_file = os.path.isfile(input_path)
 
-    # checks if path is a directory
+
     is_directory = os.path.isdir(input_path)
     if is_file:
         main_file(input_path)
@@ -27,14 +27,14 @@ def main(input_path):
 
 
 def main_file(input_file_path):
-    # print("Hello World!")
+
     trans_mgr = Transaction_Manager()
     cmmd_waitlist = []
     input_path = input_file_path
     exe_result, in_waitlist = False, False
     waitlist_idx = 0
 
-    # try:
+
     file_read = open(input_path, "r")
     print("file loaded")
     while True:
@@ -44,7 +44,7 @@ def main_file(input_file_path):
 
         if len(cmmd_waitlist) > 0 and waitlist_idx < len(cmmd_waitlist):
             fetched = cmmd_waitlist[waitlist_idx]
-            # print("waitlist index {}, command is {}".format(waitlist_idx, fetched))
+
 
             in_waitlist = True
         else:
@@ -62,16 +62,16 @@ def main_file(input_file_path):
                 if 'Test' in qry:
                     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%{}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%".format(qry))
                 qry = qry[:qry.index('//')]
-                # qry = qry.strip()
+
             if qry is not None and qry != '\n' and qry.strip() != "":
 
                 fetched = Query_Parser.parse_query(qry.strip())
             else:
-                # break
+
                 continue
 
         if fetched[0] == 'begin':
-            # print("==================================================Transaction T{} begins=======================================".format(int(fetched[1])))
+
             exe_result = trans_mgr.begin(int(fetched[1]))
         elif fetched[0] == 'beginRO':
             exe_result = trans_mgr.begin_read_only(int(fetched[1]))
@@ -87,9 +87,9 @@ def main_file(input_file_path):
             exe_result = trans_mgr.dump()
         elif fetched[0] == 'end':
             exe_result = trans_mgr.end(int(fetched[1]))
-            # print(
-            #     "==================================================Transaction T{} ends=======================================".format(
-            #         int(fetched[1])))
+
+
+
 
         pre_cmmd_waitlist_len = len(cmmd_waitlist)
         if exe_result == True:
@@ -108,14 +108,14 @@ def main_file(input_file_path):
 
         if deadlock_detection_result == -2:
             print("===================================================================================================")
-            # pass
+
 
 
 if __name__ == "__main__":
-    # main("testcases.txt")
-    # main("testCases/testcase19.txt")
-    # main("testCases/testcase2.txt")
+
+
+
     main("testCases")
-    # main("testCases/testcase18.txt")
-    # t=Transaction_Manager()
-    # print(t(1,2,102))
+
+
+

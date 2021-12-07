@@ -16,12 +16,12 @@ def get_argument(input_query: str) -> List:
 
 def parse_query(input_query: str) -> List:
     res = []
-    # print("debug")
+
 
     commd = input_query[:input_query.index("(")]
     res.append(commd)
     res += get_argument(input_query)
-    # print("parsed command is : {}".format(str(res)) )
+
     return res
 
 
