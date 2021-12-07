@@ -80,7 +80,7 @@ class Site:
                 return True
             else:
                 lock_1 = self.lock_table[variable_id]
-                for i in range(1, len(lock_1)):
+                for i in range(0, len(lock_1)):
                     if lock_1[i].transaction_id != transaction_id:
                         self.site_db()  ######################################################################
                         return False

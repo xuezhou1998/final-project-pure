@@ -209,6 +209,9 @@ class Transaction_Manager:
         curr_transaction.blocked = True
 
     def end(self, trans_id):
+        if trans_id not in self.trans_map.keys():
+            print("Transaction T{} has already been aborted ".format(trans_id))
+            return True
         curr_transaction = self.trans_map[trans_id]
         if curr_transaction.blocked:
             return False
