@@ -26,6 +26,14 @@ class Transaction_Manager:
 
     def get_site_variable_value(self, site_id, variable_id):
         return self.get_site(site_id).get_value(variable_id)
+    def get_site_multi_version_variable_value(self, site_id, variable_id, trans_start_time):
+        curr_site= self.get_site(site_id)
+        versions = curr_site.vartable[variable_id]
+        lastest_var = None
+        for var in reversed(versions):
+            if var.version < trans_start_time:
+                lastest_var = var
+                return lastest_var.value
 
     def get_last_failure_time(self, site_id):
         return self.get_site(site_id).last_fail_time
@@ -85,7 +93,8 @@ class Transaction_Manager:
             return self.read_read_only(trans_id, variable_id)
         if variable_id in curr_transaction.cache.keys():
             variable_value = curr_transaction.cache[variable_id]
-            print("X %s : %s" % (str(variable_id), str(variable_value)))
+            # print("Read X %s : %s" % (str(variable_id), str(variable_value)))
+            print("Transaction T{} Read X{}: {}".format(trans_id, variable_id, variable_value))
             return True
         if not self.is_replicated_variable(variable_id):
             site_id = variable_id % Constant.NUMBER_OF_SITES + 1
@@ -94,8 +103,10 @@ class Transaction_Manager:
                 # curr_transaction.sites_accessed.add(site_id)
                 self.update_sites_accessed(trans_id, variable_id, site_id)
                 variable_value = self.get_site_variable_value(site_id, variable_id)
-                print("X %s : %s" % (str(variable_id), str(variable_value)))
+                # print("Read X %s : %s" % (str(variable_id), str(variable_value)))
+                print("Transaction T{} Read X{}: {}".format(trans_id, variable_id, variable_value))
                 return True
+
         else:
             # may need to add the restriction that just recovered site cannot read
 
@@ -109,7 +120,8 @@ class Transaction_Manager:
                     # curr_transaction.sites_accessed.add(i)
                     self.update_sites_accessed(trans_id, variable_id, i)
                     variable_value = self.get_site_variable_value(i, variable_id)
-                    print("X %s : %s" % (str(variable_id), str(variable_value)))
+                    # print("Read X %s : %s" % (str(variable_id), str(variable_value)))
+                    print("Transaction T{} Read X{}: {}".format(trans_id, variable_id, variable_value))
                     return True
         return False
 
@@ -121,9 +133,11 @@ class Transaction_Manager:
             if self.is_site_failed(site_id):
                 return False
             else:
-                variable_value = self.get_site_variable_value(site_id, variable_id)
+                # variable_value = self.get_site_variable_value(site_id, variable_id)
                 # since xi is the only site that knows this non replicated variable
-                print("Read X %s : %s" % (str(variable_id), str(variable_value)))
+                variable_value = self.get_site_multi_version_variable_value(site_id,variable_id,curr_transaction.start_time)
+                # print("Read X %s : %s" % (str(variable_id), str(variable_value)))
+                print("RO Transaction T{} Read X{}: {}".format(trans_id, variable_id, variable_value))
                 return True
         else:
 
@@ -133,15 +147,18 @@ class Transaction_Manager:
 
                 if variable_id not in self.get_site(k).vartable.keys() or self.get_site(k).vartable[variable_id] == []:
                     continue
-                latest = self.get_site(k).vartable[variable_id][-1]
+                # latest = self.get_site(k).vartable[variable_id][-1]
+
                 just_recovered = self.get_site_just_recover(k)
                 last_write_commit_time = self.get_last_write_commit_time(k,
                                                                          variable_id)  ###########need to be fixed to latest.time_stamp
                 if (
                 not just_recovered) and curr_transaction.start_time > last_write_commit_time > self.get_last_failure_time(
                         k):
-                    variable_value = latest.value
-                    print("Read X %s : %s" % (str(variable_id), str(variable_value)))
+                    variable_value = self.get_site_multi_version_variable_value(k, variable_id, curr_transaction.start_time)
+                        # latest.value
+                    # print("Read X %s : %s" % (str(variable_id), str(variable_value)))
+                    print("RO Transaction T{} Read X{}: {}".format(trans_id, variable_id, variable_value))
                     return True
         return False
 
@@ -169,7 +186,7 @@ class Transaction_Manager:
                 curr_transaction.sites[variable_id] = [site_id]
                 return True
             else:
-                curr_site.add_write_lock(trans_id, variable_id, self.time_stamp)
+                curr_site.add_wait_lock(trans_id, variable_id, self.time_stamp)########################
                 wait_id = curr_site.get_waiting_id(variable_id, trans_id)
                 curr_transaction.waiting_for_trans_id = wait_id
                 curr_transaction.blocked = True
@@ -247,6 +264,7 @@ class Transaction_Manager:
                     for site_id_item in site_list:
                         # if operation_type == "W":
                         self.write_site(variable_id, variable_value, site_id_item)
+                        print("Transaction T{} Write X{}: {} on site {} at time {}".format(trans_id,variable_id, variable_value, site_id_item, self.time_stamp))
             # for accessed_site_item in list(curr_transaction.sites_accessed):
             #     self.release_site_locks(trans_id, accessed_site_item)
             self.release_locks(trans_id, curr_transaction.sites_accessed)

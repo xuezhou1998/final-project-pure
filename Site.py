@@ -147,6 +147,7 @@ class Site:
         ###############################
         self.just_recovery = False
         self.last_write_commit_time[var_id] = time_stamp
+        # print("Write X{}: {} on site {} at time {}".format(var_id, value, self.site_id, time_stamp))
         return 0
     def site_recover(self, time_stamp, last_fail_time):
         self.recover_time = time_stamp

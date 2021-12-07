@@ -1,0 +1,618 @@
+/usr/local/bin/python3.7 "/Users/xuezhouwen/My Drive/NYU Courses/Advanced Topics Database Systems, Section 001/final-project-pure/Main.py"
+file loaded
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 1.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['W', '1', '2', '102']
+instruction is waiting: ['W', '2', '1', '201']
+There is a deadlock.
+Transaction  T2 is aborted. inside deadlock detection
+Transaction T1 Write X1: 101 on site 2 at time 9
+Transaction T1 Write X2: 102 on site 1 at time 9
+Transaction T1 Write X2: 102 on site 2 at time 9
+Transaction T1 Write X2: 102 on site 3 at time 9
+Transaction T1 Write X2: 102 on site 4 at time 9
+Transaction T1 Write X2: 102 on site 5 at time 9
+Transaction T1 Write X2: 102 on site 6 at time 9
+Transaction T1 Write X2: 102 on site 7 at time 9
+Transaction T1 Write X2: 102 on site 8 at time 9
+Transaction T1 Write X2: 102 on site 9 at time 9
+Transaction T1 Write X2: 102 on site 10 at time 9
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+site 1 - x2: 102
+site 2 - x1: 101, x2: 102
+site 3 - x2: 102
+site 4 - x2: 102
+site 5 - x2: 102
+site 6 - x2: 102
+site 7 - x2: 102
+site 8 - x2: 102
+site 9 - x2: 102
+site 10 - x2: 102
+
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RO Transaction T2 Read X2: 102
+RO Transaction T2 Read X1: 101
+Transaction T1 Write X1: 101 on site 2 at time 17
+Transaction T1 Write X2: 102 on site 1 at time 17
+Transaction T1 Write X2: 102 on site 2 at time 17
+Transaction T1 Write X2: 102 on site 3 at time 17
+Transaction T1 Write X2: 102 on site 4 at time 17
+Transaction T1 Write X2: 102 on site 5 at time 17
+Transaction T1 Write X2: 102 on site 6 at time 17
+Transaction T1 Write X2: 102 on site 7 at time 17
+Transaction T1 Write X2: 102 on site 8 at time 17
+Transaction T1 Write X2: 102 on site 9 at time 17
+Transaction T1 Write X2: 102 on site 10 at time 17
+Transaction T1 committed.
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+site 1 - x2: 102
+site 2 - x1: 101, x2: 102
+site 3 - x2: 102
+site 4 - x2: 102
+site 5 - x2: 102
+site 6 - x2: 102
+site 7 - x2: 102
+site 8 - x2: 102
+site 9 - x2: 102
+site 10 - x2: 102
+
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Transaction T1 Read X3: 30
+Has made site 2 failed
+Transaction T2 Read X3: 30
+Transaction T2 Write X8: 88 on site 1 at time 27
+Transaction T2 Write X8: 88 on site 3 at time 27
+Transaction T2 Write X8: 88 on site 4 at time 27
+Transaction T2 Write X8: 88 on site 5 at time 27
+Transaction T2 Write X8: 88 on site 6 at time 27
+Transaction T2 Write X8: 88 on site 7 at time 27
+Transaction T2 Write X8: 88 on site 8 at time 27
+Transaction T2 Write X8: 88 on site 9 at time 27
+Transaction T2 Write X8: 88 on site 10 at time 27
+Transaction T2 committed.
+Recover site 2 successful at time stamp 28
+Transaction T1 Write X5: 91 on site 6 at time 29
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 3.5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Transaction T1 Read X3: 30
+Has made site 2 failed
+Recover site 2 successful at time stamp 37
+Transaction T2 has been aborted. in end
+Transaction T1 Write X4: 91 on site 1 at time 39
+Transaction T1 Write X4: 91 on site 3 at time 39
+Transaction T1 Write X4: 91 on site 4 at time 39
+Transaction T1 Write X4: 91 on site 5 at time 39
+Transaction T1 Write X4: 91 on site 6 at time 39
+Transaction T1 Write X4: 91 on site 7 at time 39
+Transaction T1 Write X4: 91 on site 8 at time 39
+Transaction T1 Write X4: 91 on site 9 at time 39
+Transaction T1 Write X4: 91 on site 10 at time 39
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 3.7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Transaction T1 Read X3: 30
+Has made site 2 failed
+Recover site 2 successful at time stamp 46
+Transaction T2 has been aborted. in end
+Transaction T1 Write X4: 91 on site 1 at time 49
+Transaction T1 Write X4: 91 on site 2 at time 49
+Transaction T1 Write X4: 91 on site 3 at time 49
+Transaction T1 Write X4: 91 on site 4 at time 49
+Transaction T1 Write X4: 91 on site 5 at time 49
+Transaction T1 Write X4: 91 on site 6 at time 49
+Transaction T1 Write X4: 91 on site 7 at time 49
+Transaction T1 Write X4: 91 on site 8 at time 49
+Transaction T1 Write X4: 91 on site 9 at time 49
+Transaction T1 Write X4: 91 on site 10 at time 49
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Transaction T1 Read X1: 101
+Has made site 2 failed
+Transaction T2 Read X3: 30
+Transaction T2 Write X8: 88 on site 1 at time 57
+Transaction T2 Write X8: 88 on site 3 at time 57
+Transaction T2 Write X8: 88 on site 4 at time 57
+Transaction T2 Write X8: 88 on site 5 at time 57
+Transaction T2 Write X8: 88 on site 6 at time 57
+Transaction T2 Write X8: 88 on site 7 at time 57
+Transaction T2 Write X8: 88 on site 8 at time 57
+Transaction T2 Write X8: 88 on site 9 at time 57
+Transaction T2 Write X8: 88 on site 10 at time 57
+Transaction T2 committed.
+Recover site 2 successful at time stamp 58
+Transaction T1 has been aborted. in end
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 2 failed
+Transaction T2 Read X3: 30
+Transaction T2 Write X8: 88 on site 1 at time 67
+Transaction T2 Write X8: 88 on site 3 at time 67
+Transaction T2 Write X8: 88 on site 4 at time 67
+Transaction T2 Write X8: 88 on site 5 at time 67
+Transaction T2 Write X8: 88 on site 6 at time 67
+Transaction T2 Write X8: 88 on site 7 at time 67
+Transaction T2 Write X8: 88 on site 8 at time 67
+Transaction T2 Write X8: 88 on site 9 at time 67
+Transaction T2 Write X8: 88 on site 10 at time 67
+Transaction T2 committed.
+Recover site 2 successful at time stamp 68
+Transaction T1 has been aborted. in end
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 6
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 3 failed
+Has made site 4 failed
+Transaction T1 Read X1: 101
+Transaction T1 committed.
+Recover site 4 successful at time stamp 77
+Recover site 3 successful at time stamp 78
+Transaction T2 Read X3: 30
+Transaction T2 Write X8: 88 on site 1 at time 80
+Transaction T2 Write X8: 88 on site 2 at time 80
+Transaction T2 Write X8: 88 on site 5 at time 80
+Transaction T2 Write X8: 88 on site 6 at time 80
+Transaction T2 Write X8: 88 on site 7 at time 80
+Transaction T2 Write X8: 88 on site 8 at time 80
+Transaction T2 Write X8: 88 on site 9 at time 80
+Transaction T2 Write X8: 88 on site 10 at time 80
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+site 1 - x2: 102, x4: 91, x8: 88
+site 2 - x1: 101, x2: 102, x4: 91, x8: 88
+site 3 - x2: 102, x4: 91, x8: 88
+site 4 - x2: 102, x4: 91, x8: 88
+site 5 - x2: 102, x4: 91, x8: 88
+site 6 - x2: 102, x4: 91, x5: 91, x8: 88
+site 7 - x2: 102, x4: 91, x8: 88
+site 8 - x2: 102, x4: 91, x8: 88
+site 9 - x2: 102, x4: 91, x8: 88
+site 10 - x2: 102, x4: 91, x8: 88
+
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RO Transaction T2 Read X1: 101
+RO Transaction T2 Read X2: 102
+Transaction T1 Write X3: 33 on site 4 at time 87
+Transaction T1 committed.
+RO Transaction T2 Read X3: 30
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RO Transaction T2 Read X1: 101
+RO Transaction T2 Read X2: 102
+Transaction T1 Write X3: 333 on site 4 at time 95
+Transaction T1 committed.
+RO Transaction T3 Read X3: 333
+RO Transaction T2 Read X3: 33
+Transaction T2 committed.
+Transaction T3 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 9
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '4']
+Transaction T2 Write X4: 44 on site 1 at time 108
+Transaction T2 Write X4: 44 on site 2 at time 108
+Transaction T2 Write X4: 44 on site 3 at time 108
+Transaction T2 Write X4: 44 on site 4 at time 108
+Transaction T2 Write X4: 44 on site 5 at time 108
+Transaction T2 Write X4: 44 on site 6 at time 108
+Transaction T2 Write X4: 44 on site 7 at time 108
+Transaction T2 Write X4: 44 on site 8 at time 108
+Transaction T2 Write X4: 44 on site 9 at time 108
+Transaction T2 Write X4: 44 on site 10 at time 108
+Transaction T2 committed.
+Transaction T3 Read X4: 44
+Transaction T3 Write X2: 22 on site 1 at time 110
+Transaction T3 Write X2: 22 on site 2 at time 110
+Transaction T3 Write X2: 22 on site 3 at time 110
+Transaction T3 Write X2: 22 on site 4 at time 110
+Transaction T3 Write X2: 22 on site 5 at time 110
+Transaction T3 Write X2: 22 on site 6 at time 110
+Transaction T3 Write X2: 22 on site 7 at time 110
+Transaction T3 Write X2: 22 on site 8 at time 110
+Transaction T3 Write X2: 22 on site 9 at time 110
+Transaction T3 Write X2: 22 on site 10 at time 110
+Transaction T3 committed.
+Transaction T1 Read X2: 22
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 10
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '4']
+Transaction T2 Write X4: 44 on site 1 at time 120
+Transaction T2 Write X4: 44 on site 2 at time 120
+Transaction T2 Write X4: 44 on site 3 at time 120
+Transaction T2 Write X4: 44 on site 4 at time 120
+Transaction T2 Write X4: 44 on site 5 at time 120
+Transaction T2 Write X4: 44 on site 6 at time 120
+Transaction T2 Write X4: 44 on site 7 at time 120
+Transaction T2 Write X4: 44 on site 8 at time 120
+Transaction T2 Write X4: 44 on site 9 at time 120
+Transaction T2 Write X4: 44 on site 10 at time 120
+Transaction T2 committed.
+Transaction T3 Read X4: 44
+Transaction T3 Write X2: 22 on site 1 at time 122
+Transaction T3 Write X2: 22 on site 2 at time 122
+Transaction T3 Write X2: 22 on site 3 at time 122
+Transaction T3 Write X2: 22 on site 4 at time 122
+Transaction T3 Write X2: 22 on site 5 at time 122
+Transaction T3 Write X2: 22 on site 6 at time 122
+Transaction T3 Write X2: 22 on site 7 at time 122
+Transaction T3 Write X2: 22 on site 8 at time 122
+Transaction T3 Write X2: 22 on site 9 at time 122
+Transaction T3 Write X2: 22 on site 10 at time 122
+Transaction T3 committed.
+Transaction T1 Read X2: 22
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 11
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Transaction T1 Read X2: 22
+Transaction T2 Read X2: 22
+instruction is waiting: ['W', '2', '2', '10']
+Transaction T1 committed.
+Transaction T2 Write X2: 10 on site 1 at time 133
+Transaction T2 Write X2: 10 on site 2 at time 133
+Transaction T2 Write X2: 10 on site 3 at time 133
+Transaction T2 Write X2: 10 on site 4 at time 133
+Transaction T2 Write X2: 10 on site 5 at time 133
+Transaction T2 Write X2: 10 on site 6 at time 133
+Transaction T2 Write X2: 10 on site 7 at time 133
+Transaction T2 Write X2: 10 on site 8 at time 133
+Transaction T2 Write X2: 10 on site 9 at time 133
+Transaction T2 Write X2: 10 on site 10 at time 133
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 12
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Transaction T1 Read X2: 10
+Transaction T2 Read X2: 10
+Transaction T1 committed.
+Transaction T2 Write X2: 10 on site 1 at time 140
+Transaction T2 Write X2: 10 on site 2 at time 140
+Transaction T2 Write X2: 10 on site 3 at time 140
+Transaction T2 Write X2: 10 on site 4 at time 140
+Transaction T2 Write X2: 10 on site 5 at time 140
+Transaction T2 Write X2: 10 on site 6 at time 140
+Transaction T2 Write X2: 10 on site 7 at time 140
+Transaction T2 Write X2: 10 on site 8 at time 140
+Transaction T2 Write X2: 10 on site 9 at time 140
+Transaction T2 Write X2: 10 on site 10 at time 140
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 13
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['W', '2', '2', '10']
+instruction is waiting: ['W', '1', '2', '10']
+Transaction T3 Write X2: 10 on site 1 at time 150
+Transaction T3 Write X2: 10 on site 2 at time 150
+Transaction T3 Write X2: 10 on site 3 at time 150
+Transaction T3 Write X2: 10 on site 4 at time 150
+Transaction T3 Write X2: 10 on site 5 at time 150
+Transaction T3 Write X2: 10 on site 6 at time 150
+Transaction T3 Write X2: 10 on site 7 at time 150
+Transaction T3 Write X2: 10 on site 8 at time 150
+Transaction T3 Write X2: 10 on site 9 at time 150
+Transaction T3 Write X2: 10 on site 10 at time 150
+Transaction T3 committed.
+Transaction T2 Write X2: 10 on site 1 at time 153
+Transaction T2 Write X2: 10 on site 2 at time 153
+Transaction T2 Write X2: 10 on site 3 at time 153
+Transaction T2 Write X2: 10 on site 4 at time 153
+Transaction T2 Write X2: 10 on site 5 at time 153
+Transaction T2 Write X2: 10 on site 6 at time 153
+Transaction T2 Write X2: 10 on site 7 at time 153
+Transaction T2 Write X2: 10 on site 8 at time 153
+Transaction T2 Write X2: 10 on site 9 at time 153
+Transaction T2 Write X2: 10 on site 10 at time 153
+Transaction T2 committed.
+Transaction T1 Write X2: 10 on site 1 at time 155
+Transaction T1 Write X2: 10 on site 2 at time 155
+Transaction T1 Write X2: 10 on site 3 at time 155
+Transaction T1 Write X2: 10 on site 4 at time 155
+Transaction T1 Write X2: 10 on site 5 at time 155
+Transaction T1 Write X2: 10 on site 6 at time 155
+Transaction T1 Write X2: 10 on site 7 at time 155
+Transaction T1 Write X2: 10 on site 8 at time 155
+Transaction T1 Write X2: 10 on site 9 at time 155
+Transaction T1 Write X2: 10 on site 10 at time 155
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 14
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['W', '1', '2', '10']
+instruction is waiting: ['W', '2', '2', '10']
+Transaction T3 Write X2: 10 on site 1 at time 165
+Transaction T3 Write X2: 10 on site 2 at time 165
+Transaction T3 Write X2: 10 on site 3 at time 165
+Transaction T3 Write X2: 10 on site 4 at time 165
+Transaction T3 Write X2: 10 on site 5 at time 165
+Transaction T3 Write X2: 10 on site 6 at time 165
+Transaction T3 Write X2: 10 on site 7 at time 165
+Transaction T3 Write X2: 10 on site 8 at time 165
+Transaction T3 Write X2: 10 on site 9 at time 165
+Transaction T3 Write X2: 10 on site 10 at time 165
+Transaction T3 committed.
+Transaction T1 Write X2: 10 on site 1 at time 168
+Transaction T1 Write X2: 10 on site 2 at time 168
+Transaction T1 Write X2: 10 on site 3 at time 168
+Transaction T1 Write X2: 10 on site 4 at time 168
+Transaction T1 Write X2: 10 on site 5 at time 168
+Transaction T1 Write X2: 10 on site 6 at time 168
+Transaction T1 Write X2: 10 on site 7 at time 168
+Transaction T1 Write X2: 10 on site 8 at time 168
+Transaction T1 Write X2: 10 on site 9 at time 168
+Transaction T1 Write X2: 10 on site 10 at time 168
+Transaction T1 committed.
+Transaction T2 Write X2: 10 on site 1 at time 170
+Transaction T2 Write X2: 10 on site 2 at time 170
+Transaction T2 Write X2: 10 on site 3 at time 170
+Transaction T2 Write X2: 10 on site 4 at time 170
+Transaction T2 Write X2: 10 on site 5 at time 170
+Transaction T2 Write X2: 10 on site 6 at time 170
+Transaction T2 Write X2: 10 on site 7 at time 170
+Transaction T2 Write X2: 10 on site 8 at time 170
+Transaction T2 Write X2: 10 on site 9 at time 170
+Transaction T2 Write X2: 10 on site 10 at time 170
+Transaction T2 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 15
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 2 failed
+Recover site 2 successful at time stamp 179
+instruction is waiting: ['W', '3', '4', '55']
+instruction is waiting: ['W', '4', '4', '66']
+instruction is waiting: ['W', '5', '4', '77']
+Transaction T1 has been aborted. in end
+Transaction T2 Write X4: 44 on site 1 at time 193
+Transaction T2 Write X4: 44 on site 3 at time 193
+Transaction T2 Write X4: 44 on site 4 at time 193
+Transaction T2 Write X4: 44 on site 5 at time 193
+Transaction T2 Write X4: 44 on site 6 at time 193
+Transaction T2 Write X4: 44 on site 7 at time 193
+Transaction T2 Write X4: 44 on site 8 at time 193
+Transaction T2 Write X4: 44 on site 9 at time 193
+Transaction T2 Write X4: 44 on site 10 at time 193
+Transaction T2 committed.
+Transaction T3 Write X4: 55 on site 1 at time 197
+Transaction T3 Write X4: 55 on site 2 at time 197
+Transaction T3 Write X4: 55 on site 3 at time 197
+Transaction T3 Write X4: 55 on site 4 at time 197
+Transaction T3 Write X4: 55 on site 5 at time 197
+Transaction T3 Write X4: 55 on site 6 at time 197
+Transaction T3 Write X4: 55 on site 7 at time 197
+Transaction T3 Write X4: 55 on site 8 at time 197
+Transaction T3 Write X4: 55 on site 9 at time 197
+Transaction T3 Write X4: 55 on site 10 at time 197
+Transaction T3 committed.
+Transaction T4 Write X4: 66 on site 1 at time 200
+Transaction T4 Write X4: 66 on site 2 at time 200
+Transaction T4 Write X4: 66 on site 3 at time 200
+Transaction T4 Write X4: 66 on site 4 at time 200
+Transaction T4 Write X4: 66 on site 5 at time 200
+Transaction T4 Write X4: 66 on site 6 at time 200
+Transaction T4 Write X4: 66 on site 7 at time 200
+Transaction T4 Write X4: 66 on site 8 at time 200
+Transaction T4 Write X4: 66 on site 9 at time 200
+Transaction T4 Write X4: 66 on site 10 at time 200
+Transaction T4 committed.
+Transaction T5 Write X4: 77 on site 1 at time 202
+Transaction T5 Write X4: 77 on site 2 at time 202
+Transaction T5 Write X4: 77 on site 3 at time 202
+Transaction T5 Write X4: 77 on site 4 at time 202
+Transaction T5 Write X4: 77 on site 5 at time 202
+Transaction T5 Write X4: 77 on site 6 at time 202
+Transaction T5 Write X4: 77 on site 7 at time 202
+Transaction T5 Write X4: 77 on site 8 at time 202
+Transaction T5 Write X4: 77 on site 9 at time 202
+Transaction T5 Write X4: 77 on site 10 at time 202
+Transaction T5 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 16
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '4']
+Transaction T2 Write X4: 44 on site 1 at time 210
+Transaction T2 Write X4: 44 on site 2 at time 210
+Transaction T2 Write X4: 44 on site 3 at time 210
+Transaction T2 Write X4: 44 on site 4 at time 210
+Transaction T2 Write X4: 44 on site 5 at time 210
+Transaction T2 Write X4: 44 on site 6 at time 210
+Transaction T2 Write X4: 44 on site 7 at time 210
+Transaction T2 Write X4: 44 on site 8 at time 210
+Transaction T2 Write X4: 44 on site 9 at time 210
+Transaction T2 Write X4: 44 on site 10 at time 210
+Transaction T2 committed.
+Transaction T3 Read X4: 44
+Transaction T3 Write X2: 22 on site 1 at time 212
+Transaction T3 Write X2: 22 on site 2 at time 212
+Transaction T3 Write X2: 22 on site 3 at time 212
+Transaction T3 Write X2: 22 on site 4 at time 212
+Transaction T3 Write X2: 22 on site 5 at time 212
+Transaction T3 Write X2: 22 on site 6 at time 212
+Transaction T3 Write X2: 22 on site 7 at time 212
+Transaction T3 Write X2: 22 on site 8 at time 212
+Transaction T3 Write X2: 22 on site 9 at time 212
+Transaction T3 Write X2: 22 on site 10 at time 212
+Transaction T3 committed.
+Transaction T1 Read X2: 22
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 17
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '3']
+Transaction T2 Write X3: 44 on site 4 at time 222
+Transaction T2 committed.
+Transaction T3 Read X3: 44
+Has made site 4 failed
+Transaction T3 has been aborted. in end
+Transaction T1 Read X2: 22
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 18
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '3']
+Transaction T4 Read X4: 44
+Transaction T5 Read X5: 91
+Transaction T1 Read X1: 101
+Transaction T2 Read X2: 22
+instruction is waiting: ['W', '1', '2', '10']
+instruction is waiting: ['W', '2', '3', '20']
+instruction is waiting: ['W', '3', '4', '30']
+instruction is waiting: ['W', '4', '5', '40']
+instruction is waiting: ['W', '5', '1', '50']
+instruction is waiting: ['end', '5']
+instruction is waiting: ['end', '4']
+instruction is waiting: ['end', '3']
+Transaction T2 committed.
+Transaction T1 Write X2: 10 on site 1 at time 307
+Transaction T1 Write X2: 10 on site 2 at time 307
+Transaction T1 Write X2: 10 on site 3 at time 307
+Transaction T1 Write X2: 10 on site 5 at time 307
+Transaction T1 Write X2: 10 on site 6 at time 307
+Transaction T1 Write X2: 10 on site 7 at time 307
+Transaction T1 Write X2: 10 on site 8 at time 307
+Transaction T1 Write X2: 10 on site 9 at time 307
+Transaction T1 Write X2: 10 on site 10 at time 307
+Transaction T1 committed.
+Transaction T5 Write X1: 50 on site 2 at time 315
+Transaction T5 committed.
+Transaction T4 Write X5: 40 on site 6 at time 321
+Transaction T4 committed.
+Transaction T3 Write X4: 30 on site 1 at time 325
+Transaction T3 Write X4: 30 on site 2 at time 325
+Transaction T3 Write X4: 30 on site 3 at time 325
+Transaction T3 Write X4: 30 on site 5 at time 325
+Transaction T3 Write X4: 30 on site 6 at time 325
+Transaction T3 Write X4: 30 on site 7 at time 325
+Transaction T3 Write X4: 30 on site 8 at time 325
+Transaction T3 Write X4: 30 on site 9 at time 325
+Transaction T3 Write X4: 30 on site 10 at time 325
+Transaction T3 committed.
+No transactions now
+===================================================================================================
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 19
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+instruction is waiting: ['R', '3', '3']
+Has made site 4 failed
+Recover site 4 successful at time stamp 336
+Transaction T3 Read X3: 44
+Transaction T4 Read X4: 30
+Transaction T5 Read X5: 40
+Transaction T1 Read X6: 60
+Transaction T2 Read X2: 10
+instruction is waiting: ['W', '1', '2', '10']
+instruction is waiting: ['W', '2', '3', '20']
+instruction is waiting: ['W', '3', '4', '30']
+Transaction T5 Write X1: 50 on site 2 at time 355
+Transaction T5 committed.
+Transaction T4 Write X5: 40 on site 6 at time 363
+Transaction T4 committed.
+Transaction T3 Write X4: 30 on site 1 at time 369
+Transaction T3 Write X4: 30 on site 2 at time 369
+Transaction T3 Write X4: 30 on site 3 at time 369
+Transaction T3 Write X4: 30 on site 4 at time 369
+Transaction T3 Write X4: 30 on site 5 at time 369
+Transaction T3 Write X4: 30 on site 6 at time 369
+Transaction T3 Write X4: 30 on site 7 at time 369
+Transaction T3 Write X4: 30 on site 8 at time 369
+Transaction T3 Write X4: 30 on site 9 at time 369
+Transaction T3 Write X4: 30 on site 10 at time 369
+Transaction T3 committed.
+Transaction T2 Write X3: 20 on site 4 at time 373
+Transaction T2 committed.
+Transaction T1 Write X2: 10 on site 1 at time 375
+Transaction T1 Write X2: 10 on site 2 at time 375
+Transaction T1 Write X2: 10 on site 3 at time 375
+Transaction T1 Write X2: 10 on site 4 at time 375
+Transaction T1 Write X2: 10 on site 5 at time 375
+Transaction T1 Write X2: 10 on site 6 at time 375
+Transaction T1 Write X2: 10 on site 7 at time 375
+Transaction T1 Write X2: 10 on site 8 at time 375
+Transaction T1 Write X2: 10 on site 9 at time 375
+Transaction T1 Write X2: 10 on site 10 at time 375
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 20
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Has made site 1 failed
+Transaction T1 has been aborted. in end
+Transaction T3 Write X2: 100 on site 2 at time 383
+Transaction T3 Write X2: 100 on site 3 at time 383
+Transaction T3 Write X2: 100 on site 4 at time 383
+Transaction T3 Write X2: 100 on site 5 at time 383
+Transaction T3 Write X2: 100 on site 6 at time 383
+Transaction T3 Write X2: 100 on site 7 at time 383
+Transaction T3 Write X2: 100 on site 8 at time 383
+Transaction T3 Write X2: 100 on site 9 at time 383
+Transaction T3 Write X2: 100 on site 10 at time 383
+Transaction T3 committed.
+Recover site 1 successful at time stamp 384
+Has made site 2 failed
+Has made site 3 failed
+Has made site 4 failed
+Has made site 5 failed
+Has made site 6 failed
+Has made site 7 failed
+Has made site 8 failed
+Has made site 9 failed
+Has made site 10 failed
+instruction is waiting: ['R', '2', '2']
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%// Test 21
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Transaction initialization successful.
+instruction is waiting: ['R', '2', '2']
+instruction is waiting: ['W', '1', '2', '202']
+instruction is waiting: ['W', '2', '2', '302']
+instruction is waiting: ['end', '1']
+site 1 - x2: 10, x4: 30, x8: 88
+site 2 - x1: 50, x2: 100, x4: 30, x8: 88
+site 3 - x2: 100, x4: 30, x8: 88
+site 4 - x2: 100, x3: 20, x4: 30, x8: 88
+site 5 - x2: 100, x4: 30, x8: 88
+site 6 - x2: 100, x4: 30, x5: 40, x8: 88
+site 7 - x2: 100, x4: 30, x8: 88
+site 8 - x2: 100, x4: 30, x8: 88
+site 9 - x2: 100, x4: 30, x8: 88
+site 10 - x2: 100, x4: 30, x8: 88
+
+
+Process finished with exit code 0
