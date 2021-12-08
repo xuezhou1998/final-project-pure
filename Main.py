@@ -4,10 +4,6 @@ from Transaction_Manager import Transaction_Manager
 
 
 def main(input_path):
-    """
-
-    :rtype: None
-    """
 
     is_file = os.path.isfile(input_path)
 
@@ -65,32 +61,27 @@ def main_file(input_file_path):
 
             if qry is not None and qry != '\n' and qry.strip() != "":
 
-                fetched = Query_Parser.parse_query(qry.strip())
+                fetched = query_parser(qry)
             else:
-
                 continue
 
-        if fetched[0] == 'begin':
+        if fetched['op'] == 'begin':
 
-            exe_result = trans_mgr.begin(int(fetched[1]))
-        elif fetched[0] == 'beginRO':
-            exe_result = trans_mgr.begin_read_only(int(fetched[1]))
-        elif fetched[0] == 'R':
-            exe_result = trans_mgr.read(int(fetched[1]), int(fetched[2]))
-        elif fetched[0] == 'W':
-            exe_result = trans_mgr.write(int(fetched[1]), int(fetched[2]), int(fetched[3]))
-        elif fetched[0] == 'recover':
-            exe_result = trans_mgr.recover(int(fetched[1]))
-        elif fetched[0] == 'fail':
-            exe_result = trans_mgr.fail(int(fetched[1]))
-        elif fetched[0] == 'dump':
+            exe_result = trans_mgr.begin(int(fetched['trans_id/site_id']))
+        elif fetched['op'] == 'beginRO':
+            exe_result = trans_mgr.begin_read_only(int(fetched['trans_id/site_id']))
+        elif fetched['op'] == 'R':
+            exe_result = trans_mgr.read(int(fetched['trans_id/site_id']), int(fetched['variable_id']))
+        elif fetched['op'] == 'W':
+            exe_result = trans_mgr.write(int(fetched['trans_id/site_id']), int(fetched['variable_id']), int(fetched['variable_value']))
+        elif fetched['op'] == 'recover':
+            exe_result = trans_mgr.recover(int(fetched['trans_id/site_id']))
+        elif fetched['op'] == 'fail':
+            exe_result = trans_mgr.fail(int(fetched['trans_id/site_id']))
+        elif fetched['op'] == 'dump':
             exe_result = trans_mgr.dump()
-        elif fetched[0] == 'end':
-            exe_result = trans_mgr.end(int(fetched[1]))
-
-
-
-
+        elif fetched['op'] == 'end':
+            exe_result = trans_mgr.end(int(fetched['trans_id/site_id']))
         pre_cmmd_waitlist_len = len(cmmd_waitlist)
         if exe_result == True:
             if in_waitlist == True:
@@ -99,7 +90,7 @@ def main_file(input_file_path):
         else:
             if in_waitlist == False:
                 cmmd_waitlist.append(fetched)
-                print("instruction is waiting: {}".format(fetched))
+                print("Transaction T{} is waiting due to a lock conflict: {}".format(fetched['trans_id/site_id'], fetched))
                 waitlist_idx = 0
             else:
                 waitlist_idx += 1
@@ -108,13 +99,39 @@ def main_file(input_file_path):
 
         if deadlock_detection_result == -2:
             print("===================================================================================================")
+def query_parser(qry:str):
+    qry_real = qry.strip()
+    if '//' in qry:
+        qry_real = qry[:qry.index('//')].strip()
+    parsed = {}
+    qouted = None
+    qouted_list = []
+    if '(' in qry_real and ')' in qry_real:
+        qouted = qry_real[qry_real.index('(') + 1:qry_real.index(')')].strip()
+        qouted_list = qouted.split(',')
+        parsed['op'] = qry_real[:qry_real.index('(')].strip()
+    # if qouted_list==[]:
+    #     print("parsed dump", parsed)
+    #     return parsed
+    for i in ['trans_id/site_id','variable_id','variable_value']:
+        item = qouted_list.pop(0).strip()
+        if item=='':
+            break
+        if item.isdigit():
+            parsed[i] = int(item)
+        else:
+            parsed[i] = int(item[1:])
+        if qouted_list==[]:
+            break
+    # print(parsed, "parser test")
+    return parsed
+
+
+
 
 
 
 if __name__ == "__main__":
-
-
-
     main("testCases")
 
 
