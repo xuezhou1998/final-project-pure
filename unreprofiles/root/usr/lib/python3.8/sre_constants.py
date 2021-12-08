@@ -218,7 +218,7 @@ if __name__ == "__main__":
     def dump(f, d, prefix):
         items = sorted(d)
         for item in items:
-            f.write("#define %s_%s %d\n" % (prefix, item, item))
+            f.write(, "#define %s_%s %d\n" % (prefix, item, item),
     with open("sre_constants.h", "w") as f:
         f.write("""\
 /*

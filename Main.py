@@ -1,12 +1,11 @@
-import Query_Parser
+# import Query_Parser
 import os
 from Transaction_Manager import Transaction_Manager
+import sys
 
 
 def main(input_path):
-
     is_file = os.path.isfile(input_path)
-
 
     is_directory = os.path.isdir(input_path)
     if is_file:
@@ -23,13 +22,11 @@ def main(input_path):
 
 
 def main_file(input_file_path):
-
     trans_mgr = Transaction_Manager()
     cmmd_waitlist = []
     input_path = input_file_path
     exe_result, in_waitlist = False, False
     waitlist_idx = 0
-
 
     file_read = open(input_path, "r")
     print("file loaded")
@@ -40,7 +37,6 @@ def main_file(input_file_path):
 
         if len(cmmd_waitlist) > 0 and waitlist_idx < len(cmmd_waitlist):
             fetched = cmmd_waitlist[waitlist_idx]
-
 
             in_waitlist = True
         else:
@@ -56,7 +52,9 @@ def main_file(input_file_path):
                 continue
             if '//' in qry:
                 if 'Test' in qry:
-                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%{}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%".format(qry))
+                    print(
+                        "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%{}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%".format(
+                            qry))
                 qry = qry[:qry.index('//')]
 
             if qry is not None and qry != '\n' and qry.strip() != "":
@@ -71,9 +69,10 @@ def main_file(input_file_path):
         elif fetched['op'] == 'beginRO':
             exe_result = trans_mgr.begin_read_only(int(fetched['trans_id/site_id']))
         elif fetched['op'] == 'R':
-            exe_result = trans_mgr.read(int(fetched['trans_id/site_id']), int(fetched['variable_id']))
+            exe_result = trans_mgr.read(int(fetched['variable_id']), int(fetched['trans_id/site_id']))
         elif fetched['op'] == 'W':
-            exe_result = trans_mgr.write(int(fetched['trans_id/site_id']), int(fetched['variable_id']), int(fetched['variable_value']))
+            exe_result = trans_mgr.write(int(fetched['variable_id']), int(fetched['trans_id/site_id']),
+                                         int(fetched['variable_value']))
         elif fetched['op'] == 'recover':
             exe_result = trans_mgr.recover(int(fetched['trans_id/site_id']))
         elif fetched['op'] == 'fail':
@@ -90,7 +89,8 @@ def main_file(input_file_path):
         else:
             if in_waitlist == False:
                 cmmd_waitlist.append(fetched)
-                print("Transaction T{} is waiting due to a lock conflict: {}".format(fetched['trans_id/site_id'], fetched))
+                print("Transaction T{} is waiting due to a lock conflict: {}".format(fetched['trans_id/site_id'],
+                                                                                     fetched))
                 waitlist_idx = 0
             else:
                 waitlist_idx += 1
@@ -99,7 +99,9 @@ def main_file(input_file_path):
 
         if deadlock_detection_result == -2:
             print("===================================================================================================")
-def query_parser(qry:str):
+
+
+def query_parser(qry: str):
     qry_real = qry.strip()
     if '//' in qry:
         qry_real = qry[:qry.index('//')].strip()
@@ -113,26 +115,28 @@ def query_parser(qry:str):
     # if qouted_list==[]:
     #     print("parsed dump", parsed)
     #     return parsed
-    for i in ['trans_id/site_id','variable_id','variable_value']:
+    for i in ['trans_id/site_id', 'variable_id', 'variable_value']:
         item = qouted_list.pop(0).strip()
-        if item=='':
+        if item == '':
             break
         if item.isdigit():
             parsed[i] = int(item)
         else:
             parsed[i] = int(item[1:])
-        if qouted_list==[]:
+        if qouted_list == []:
             break
     # print(parsed, "parser test")
     return parsed
 
 
-
-
-
-
 if __name__ == "__main__":
-    main("testCases")
-
-
-
+    if len(sys.argv) > 1:
+        path = sys.argv[1]
+        main(str(path).strip())
+    else:
+        main("testCases")
+    '''
+    this is command examples:
+    python3 Main.py testCases/testcase1.txt > testout/out22.txt
+    python3 Main.py testCases > testout/out23.txt
+    '''

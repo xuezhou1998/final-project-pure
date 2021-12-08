@@ -1,0 +1,32 @@
+file loaded
+Transaction T1 is waiting due to a lock conflict: {'op': 'W', 'trans_id/site_id': 1, 'variable_id': 2, 'variable_value': 102}
+Transaction T2 is waiting due to a lock conflict: {'op': 'W', 'trans_id/site_id': 2, 'variable_id': 1, 'variable_value': 201}
+There is a deadlock.
+Transaction  T2 is aborted. inside deadlock detection
+Transaction T1 Write X1: 101 on site 2 at time 9
+Transaction T1 Write X2: 102 on site 1 at time 9
+Transaction T1 Write X2: 102 on site 2 at time 9
+Transaction T1 Write X2: 102 on site 3 at time 9
+Transaction T1 Write X2: 102 on site 4 at time 9
+Transaction T1 Write X2: 102 on site 5 at time 9
+Transaction T1 Write X2: 102 on site 6 at time 9
+Transaction T1 Write X2: 102 on site 7 at time 9
+Transaction T1 Write X2: 102 on site 8 at time 9
+Transaction T1 Write X2: 102 on site 9 at time 9
+Transaction T1 Write X2: 102 on site 10 at time 9
+Transaction T1 committed.
+No transactions now
+===================================================================================================
+site 1 - x2: 102, x4: 40, x6: 60, x8: 80, x10: 100
+site 2 - x1: 101, x2: 102, x4: 40, x6: 60, x8: 80, x10: 100
+site 3 - x2: 102, x4: 40, x6: 60, x8: 80, x10: 100
+site 4 - x2: 102, x3: 30, x4: 40, x6: 60, x8: 80, x10: 100
+site 5 - x2: 102, x4: 40, x6: 60, x8: 80, x10: 100
+site 6 - x2: 102, x4: 40, x5: 50, x6: 60, x8: 80, x10: 100
+site 7 - x2: 102, x4: 40, x6: 60, x8: 80, x10: 100
+site 8 - x2: 102, x4: 40, x6: 60, x7: 70, x8: 80, x10: 100
+site 9 - x2: 102, x4: 40, x6: 60, x8: 80, x10: 100
+site 10 - x2: 102, x4: 40, x6: 60, x8: 80, x9: 90, x10: 100
+
+No transactions now
+===================================================================================================

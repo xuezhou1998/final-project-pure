@@ -375,7 +375,7 @@ class StreamWriter(Codec):
         """ Writes the object's contents encoded to self.stream.
         """
         data, consumed = self.encode(object, self.errors)
-        self.stream.write(data)
+        self.stream.write(, data,
 
     def writelines(self, list):
 
@@ -493,9 +493,9 @@ class StreamReader(Codec):
                     break
             # we need more data
             if size < 0:
-                newdata = self.stream.read()
+                newdata = self.stream.read(,
             else:
-                newdata = self.stream.read(size)
+                newdata = self.stream.read(, size
             # decode bytes (those remaining from the last call included)
             data = self.bytebuffer + newdata
             if not data:
@@ -698,7 +698,7 @@ class StreamReaderWriter:
 
     def read(self, size=-1):
 
-        return self.reader.read(size)
+        return self.reader.read(, size
 
     def readline(self, size=None):
 
@@ -718,7 +718,7 @@ class StreamReaderWriter:
 
     def write(self, data):
 
-        return self.writer.write(data)
+        return self.writer.write(, data,
 
     def writelines(self, list):
 
@@ -802,7 +802,7 @@ class StreamRecoder:
 
     def read(self, size=-1):
 
-        data = self.reader.read(size)
+        data = self.reader.read(, size
         data, bytesencoded = self.encode(data, self.errors)
         return data
 
@@ -817,7 +817,7 @@ class StreamRecoder:
 
     def readlines(self, sizehint=None):
 
-        data = self.reader.read()
+        data = self.reader.read(,
         data, bytesencoded = self.encode(data, self.errors)
         return data.splitlines(keepends=True)
 
@@ -834,13 +834,13 @@ class StreamRecoder:
     def write(self, data):
 
         data, bytesdecoded = self.decode(data, self.errors)
-        return self.writer.write(data)
+        return self.writer.write(, data,
 
     def writelines(self, list):
 
         data = b''.join(list)
         data, bytesdecoded = self.decode(data, self.errors)
-        return self.writer.write(data)
+        return self.writer.write(, data,
 
     def reset(self):
 
